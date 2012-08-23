@@ -1,0 +1,88 @@
+// This File is imported last, and will override other styles in the cascade
+// Add styles here to make changes without digging in too much
+
+@font-face {
+  font-family: 'League Gothic';
+  src: url('/fonts/league_ghotic_extended-webfont.eot?') format('eot'),
+        url('/fonts/league_ghotic_extended-webfont.woff') format('woff'),
+        url('/fonts/league_ghotic_extended-webfont.ttf') format('truetype'),
+        url('/fonts/league_ghotic_extended-webfont.svg#webfontJks7As9d') format('svg');
+  font-family: 'Novecentowide';
+  src: url('/fonts/Novecentowide-Normal-webfont.eot') format('eot'),
+        url('/fonts/Novecentowide-Normal-webfont.woff') format('woff'),
+        url('/fonts/Novecentowide-Normal-webfont.ttf') format('truetype'),
+        url('/fonts/Novecentowide-Normal-webfont.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  font-family: 'Novecentowide', Arial, san-serif;
+  background: #eee url('/images/noise.png') repeat fixed;
+}
+
+body > header h1, body > header  h2, body > header  h3, body > header  h4 {
+	font-family: 'Novecentowide', Arial, san-serif;
+	margin: 0;
+	font-weight: bold;
+}
+
+body > header h1 {
+	font-size: 30px;
+	line-height: 36px;
+	position: inherit;
+	display: block;
+}
+
+body header h2 {
+	font-size: 24px;
+	line-height: 36px;
+}
+
+body > header {
+	border: 0;
+	float: none;
+	h4 {
+		font-size: 14px;
+	}
+}
+
+#content .blog-index article h1 a {
+	font-family: 'Novecentowide', Arial, san-serif;
+	font-size: 24px;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+	color: rgb(255, 143, 0) !important;
+}
+
+.logo {
+	margin-top: 40px; 
+	background: transparent url('/images/logo_1.4_medium.png') no-repeat;
+	height: 133px;
+	width: 133px;
+	margin: 0 auto;
+}
+
+.intro {
+  text-align: center;
+  margin: 40px auto;
+}
+
+.intro ul {
+  list-style-type: none;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.intro ul li {
+  display: inline;
+  line-height: 18px;
+}
+
+.intro ul li a {
+  text-decoration: none;
+  margin: 0 30px;
+  color: #474747;
+  font-size: 13px;
+}

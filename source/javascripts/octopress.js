@@ -116,6 +116,15 @@ function renderDeliciousLinks(items) {
   $('#delicious').html(output);
 }
 
+function fadeoutContent(e) {
+  var _this = this;
+  $('#content').removeClass('fadein').addClass('fadeout');
+  setInterval(function(){ window.location = _this.href; }, 500);
+  e.stopPropagation();
+  e.preventDefault();
+  return false;
+}
+
 $.domReady(function() {
   testFeatures();
   wrapFlashVideos();
@@ -123,6 +132,7 @@ $.domReady(function() {
   addCodeLineNumbers();
   getNav();
   addSidebarToggler();
+  $('a').click(fadeoutContent);
 });
 
 // iOS scaling bug fix

@@ -24,8 +24,8 @@ html, body {
 }
 
 html {
-  background: url(/images/desk.jpg) fixed center;
-  @include background-size(cover);
+  /*background: url(/images/desk.jpg) fixed center;
+  @include background-size(cover);*/
 }
 
 body > header h1, body > header  h2, body > header  h3, body > header  h4, h1, h2, h3, h4 {
@@ -56,6 +56,25 @@ body > header {
 
 body a {
   text-decoration: none;
+}
+
+#content.fadein {
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+}
+#content.fadeout {
+  animation: fadeout .5s;
+  -moz-animation: fadeout .5s; /* Firefox */
+  -webkit-animation: fadeout .5s; /* Safari and Chrome */
+  -o-animation: fadeout .5s; /* Opera */
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
 }
 
 #content .blog-index article h1 a {
@@ -141,4 +160,53 @@ article.hentry header {
   > a {
     text-decoration: none;
   }
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fadeout { /* Firefox */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fadeout { /* Safari and Chrome */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

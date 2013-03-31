@@ -1,5 +1,5 @@
 $blockquote: $type-border !default;
-$sans: 'HelveticaNeue-Light','HelveticaNeue',Helvetica,Arial,sans-serif !default;
+$sans: 'ff-enzo-web', 'HelveticaNeue-Light','HelveticaNeue',Helvetica,Arial,sans-serif !default;
 $serif: "PT Serif", Georgia, Times, "Times New Roman", serif !default;
 $mono: PragmataPro, Menlo, Monaco, "Andale Mono", "Lucida Console", "Courier New", monospace !default;
 $heading-font-family: 'HelveticaNeue-CondensedBold','HelveticaNeue',Helvetica,Arial,sans-serif !default;
@@ -38,6 +38,8 @@ body {
   font-size: 1.125em;
   line-height: 1.5em;
   color: $text-color;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   //text-shadow: #fff 0 1px 0;
   @extend .sans;
 }
@@ -57,7 +59,7 @@ h1 {
   margin-bottom: 1em;
   font-weight: 600;
   color: $header-color;
-  a:hover { color: $header-link-color !important; }
+  a:hover { color: #FF865F !important; text-decoration: none; }
 }
 h2, section h1 {
   font-size: 1.5em;

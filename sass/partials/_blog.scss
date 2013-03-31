@@ -1,12 +1,25 @@
 article {
   padding-top: 1em;
-  a { @extend .force-wrap; }
+ /* a { @extend .force-wrap; }*/
   header {
     position: relative;
-    h1 {
+    max-width: 447px;
+    margin:0 auto;
+    h1, h4 {
+      width: auto;
       margin: 0;
-      a { text-decoration: none;
-        &:hover { text-decoration: none; } }
+      a { 
+        display: inline-block;
+        max-width: 447px - 56px;
+        white-space: -moz-nowrap;
+        white-space: -nowrap;
+        white-space: -o-nowrap;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+        &:hover { text-decoration: none; } 
+      }
     }
     p {
       font-size: .9em;
@@ -92,9 +105,9 @@ article + article {
 }
 #content .blog-index {
   article {
-	padding-top: 3em;
-	padding-bottom: 1.5em;
-	border-top: 4px solid $article-border;
+	padding-top: 0;
+	padding-bottom: 0;
+	/*border-top: 4px solid $article-border;*/
   }
   article:first-child {
     padding-top: 1em;
@@ -134,7 +147,7 @@ article + article {
   font-size: .95em;
   position: relative;
   padding: {top: 1.5em; bottom: 1.5em;}
-  border-top: 1px solid #fff;
+  /*border-top: 1px solid #fff;*/
   a {
     text-decoration: none;
     color: $text-color-light;

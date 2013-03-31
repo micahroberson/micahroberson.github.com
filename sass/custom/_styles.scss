@@ -17,14 +17,21 @@
 }
 
 html, body {
-  font-family: 'Novecentowide', Arial, san-serif;
-  background: #eee url('/images/noise.png') repeat fixed;
+  font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
+  font-weight: 600;
+  /*background: #eee url('/images/noise.png') repeat fixed;*/
+  background: transparent;
 }
 
-body > header h1, body > header  h2, body > header  h3, body > header  h4 {
-	font-family: 'Novecentowide', Arial, san-serif;
+html {
+  background: url(/images/desk.jpg) fixed center;
+  @include background-size(cover);
+}
+
+body > header h1, body > header  h2, body > header  h3, body > header  h4, h1, h2, h3, h4 {
+	font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
 	margin: 0;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 body > header h1 {
@@ -48,25 +55,47 @@ body > header {
 }
 
 #content .blog-index article h1 a {
-	font-family: 'Novecentowide', Arial, san-serif;
+	font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
 	font-size: 24px;
 }
 
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+/*h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 	color: rgb(255, 143, 0) !important;
-}
+}*/
 
 .logo {
-	margin-top: 40px; 
-	background: transparent url('/images/logo_1.4_medium.png') no-repeat;
+	background: transparent url('/images/logo_orange_14.png') no-repeat center center;
+  @include background-size(contain);
 	height: 133px;
 	width: 133px;
 	margin: 0 auto;
+  display: inline-block;
+  position: relative;
+
+  span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 133px;
+    height: 133px;
+    @include border-radius(70px);
+    background: transparent url('/images/micah_roberson.jpg') no-repeat 0% 24%;
+    @include transition(opacity .5s linear);
+    @include background-size(auto);
+    opacity: 0;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .intro {
   text-align: center;
-  margin: 40px auto;
+  /*margin: 40px auto;*/
+  display: inline-block;
+  vertical-align: top;
+  padding: 20px 26px;
 }
 
 .intro ul {
@@ -85,4 +114,27 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
   margin: 0 30px;
   color: #474747;
   font-size: 13px;
+}
+
+article header p.meta {
+  text-transform: none;
+  display: inline-block;
+}
+article header h4.entry-title {
+  display: inline-block;
+}
+article.hentry header {
+  margin: 0;
+  h4 {color: #FF865F; max-width: 447px - 56px;}
+}
+
+.navbar-wrapper {
+  width: 100%;
+  text-align: center;
+  z-index: 2000;
+  padding: 20px 0;
+  /*@include box-shadow(0px 1px 1px rgba(0,0,0,0.2));*/
+  > a {
+    text-decoration: none;
+  }
 }

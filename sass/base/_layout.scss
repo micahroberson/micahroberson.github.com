@@ -82,7 +82,7 @@ body {
   }
   > header {
     font-size: $header-font-size;
-    padding-top: $header-padding-top;
+    padding-top: 4.5em;
     padding-bottom: $header-padding-bottom;
   }
 }
@@ -206,7 +206,7 @@ table {
     @extend .basic-alignment;
     @include shadow-box($border: #aaa 1px solid, $shadow: rgba(#000, .25) 0 2px 10px, $border-radius: .3em);
     padding: .25em .25em;
-	background-color: lighten($type-border, 5);
+	/*background-color: lighten($type-border, 5);*/
 //	margin: 0 auto; margin-bottom: 2em;
 	thead, thead th { font-weight: bold; font-size: 1em; }
 	thead { border-bottom: 2px solid $text-color; }

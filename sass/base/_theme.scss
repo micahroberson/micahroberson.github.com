@@ -2,10 +2,10 @@ $noise-bg: image-url('site-background.png') top left !default;
 $img-border: #666;
 
 // Main Link Colors
-$link-color: darken(#F00, 10) !default;
-$link-color-hover: desaturate(darken($link-color, 30), 10) !default; // darken(#F00, 25) -- desaturate(darken($link-color, 40), 25) 
-$link-color-visited: desaturate(lighten($link-color, 15), 60) !default;
-$link-color-active: $link-color-visited !default;
+$link-color: #000 !default;
+$link-color-hover: #FF865F !default; // darken(#F00, 25) -- desaturate(darken($link-color, 40), 25) 
+$link-color-visited: #000 !default;
+$link-color-active: #000 !default;
 
 // Main Section Colors
 $site-bg: white;
@@ -72,6 +72,7 @@ aside.sidebar a {
 }
 a {
   @include transition(color .3s);
+  &:hover { text-decoration: none; }
 }
 
 html {

@@ -21,7 +21,7 @@
     a {
       @include hover-link;
       color: inherit;
-      &:hover { color: $link-color-hover; }
+      &:hover { color: $link-color-hover; text-decoration: none; }
       font-weight: normal;
       display: inline-block;
     }
@@ -29,6 +29,7 @@
   a.category, time {
     @extend .sans;
     color: $text-color-light;
+    text-decoration: none;
   }
   color: $text-color-light;
   .entry-content { display: none; }

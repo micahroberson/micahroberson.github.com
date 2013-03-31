@@ -54,6 +54,10 @@ body > header {
 	}
 }
 
+body a {
+  text-decoration: none;
+}
+
 #content .blog-index article h1 a {
 	font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
 	font-size: 24px;

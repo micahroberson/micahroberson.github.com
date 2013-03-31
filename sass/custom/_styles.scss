@@ -58,6 +58,10 @@ body a {
   text-decoration: none;
 }
 
+body i {
+  font-style: italic;
+}
+
 #content.fadein {
   animation: fadein 1s;
   -moz-animation: fadein 1s; /* Firefox */

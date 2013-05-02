@@ -17,8 +17,8 @@
 }
 
 html, body {
-  font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
-  font-weight: 600;
+  font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
+  font-weight: 500;
   /*background: #eee url('/images/noise.png') repeat fixed;*/
   background: transparent;
 }
@@ -29,9 +29,14 @@ html {
 }
 
 body > header h1, body > header  h2, body > header  h3, body > header  h4, h1, h2, h3, h4 {
-	font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
+	font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
 	margin: 0;
-	font-weight: 600;
+	font-weight: 500;
+}
+
+#content > h1 {
+  font-size: 2em;
+  margin-bottom: .5em;
 }
 
 body > header h1 {
@@ -82,7 +87,7 @@ body i {
 }
 
 #content .blog-index article h1 a {
-	font-family: "ff-enzo-web", 'Novecentowide', Arial, san-serif;
+	font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
 	font-size: 24px;
 }
 

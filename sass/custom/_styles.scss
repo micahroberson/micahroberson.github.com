@@ -155,6 +155,12 @@ article header p.meta {
 article header h4.entry-title {
   display: inline-block;
 }
+article header .entry-title a {
+  min-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 article.hentry header {
   margin: 0;
   h4 {color: #FF865F; max-width: 447px - 56px;}

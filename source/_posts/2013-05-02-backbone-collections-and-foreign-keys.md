@@ -5,9 +5,9 @@ title: "Backbone Collections and Foreign Keys"
 comments: true
 date: 2013-05-02 08:16
 categories: 
+keywords: backbone.js, backbone collection, rails, single page app, foreign key
+description: Efficiently handling large client-side dataset with multiple foreign-key lookups in Backbone.js.
 ---
-
-# Backbone Collections and Foreign Keys
 
 At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, some of this was avoidable by denormalizing the necessary attributes into the DataSeries json via RABL templates, but certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore 'filter', 'find' and 'where' methods to do the necessary lookups.
 

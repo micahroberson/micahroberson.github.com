@@ -4,6 +4,8 @@ title: "Not Another Productivity Post"
 date: 2012-12-01 13:21
 comments: true
 categories: 
+keywords: productivity, startups, consulting, dev shop
+description: Software consulting projects and continuous productivity.
 ---
 
 Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.

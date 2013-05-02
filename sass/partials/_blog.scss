@@ -3,7 +3,7 @@ article {
  /* a { @extend .force-wrap; }*/
   header {
     position: relative;
-    max-width: 447px;
+    max-width: 460px;
     margin:0 auto;
     h1, h4 {
       width: auto;
@@ -29,6 +29,7 @@ article {
       &.meta {
         @extend .sans;
         text-transform: uppercase;
+        min-width: 55px;
       }
     }
     @media only screen and (min-width: 768px) {

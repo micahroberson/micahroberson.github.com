@@ -3,6 +3,8 @@ layout: default
 published: true
 title: "Backbone Collections and Foreign Keys"
 comments: true
+date: 2013-05-02 08:16
+categories: 
 ---
 
 # Backbone Collections and Foreign Keys

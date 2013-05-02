@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 published: true
 title: "Backbone Collections and Foreign Keys"
 comments: true
@@ -97,7 +97,3 @@ More recently, I've come across a similar scenario that involved model lookup by
             @listenTo @, 'remove', (model) =>
               hk = if typeof model[key] == 'function' then model[key]() else model.get(key)
               delete @["_#{key}_hash"][hk]
-
-
-
-

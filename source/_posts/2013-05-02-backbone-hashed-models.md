@@ -1,6 +1,7 @@
 ---
 layout: default
 published: true
+title: "Indexing a Backbone Collection on Foreign Keys"
 comments: true
 ---
 

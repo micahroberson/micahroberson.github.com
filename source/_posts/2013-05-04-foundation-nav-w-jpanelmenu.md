@@ -1,6 +1,6 @@
 ---
 layout: post
-published: false
+published: true
 title: "Foundation Nav w/ jPanelMenu"
 comments: true
 date: 2013-05-04 10:21

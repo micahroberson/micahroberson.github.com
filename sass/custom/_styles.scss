@@ -177,6 +177,14 @@ article.hentry header {
   }
 }
 
+.width-50 {
+  max-width: 50%;
+}
+
+pre {
+  width: 100%;
+}
+
 @keyframes fadein {
     from {
         opacity:0;
@@ -225,3 +233,4 @@ article.hentry header {
         opacity: 0;
     }
 }
+

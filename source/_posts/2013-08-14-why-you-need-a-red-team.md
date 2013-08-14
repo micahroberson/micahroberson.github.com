@@ -2,7 +2,7 @@
 publish: true
 layout: post
 title: "Why You Need a Red Team"
-date: 2013-07-18 09:15
+date: 2013-08-14 08:47
 comments: true
 keywords: software development, newsroom, red team, rails, consulting
 description: Why its important to have a red team in the software development industry

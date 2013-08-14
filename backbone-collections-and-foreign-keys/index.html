@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Backbone Collections and Foreign Keys - Micah Roberson</title>
+  <meta name="author" content="Micah Roberson">
+
+  
+  <meta name="description" content="Efficiently handling large client-side dataset with multiple foreign-key lookups in Backbone.js.">
+  <meta name="keywords" content="backbone.js, backbone collection, rails, single page app, foreign key">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://micahroberson.github.com/backbone-collections-and-foreign-keys">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Micah Roberson" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34306816-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: url(/images/desk.jpg) fixed center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+"></div>
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: -1;
+"></div>
+<body id="skrollr-body"   class="no-sidebar"  >
+  <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
+  <a href="/">
+    <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
+  </a>
+  <div class="intro">
+    <h1>Micah Roberson</h1>
+    <h2>Developer &amp; Entrepreneur</h2>
+    <h4>San Francisco, California</h4>
+    <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
+  </div>
+</div>
+
+</header>
+  <nav role="navigation">
+  
+
+</nav>
+  <div id="main">
+    <div id="content" class="fadein">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-02T08:16:00-07:00" pubdate data-updated="true">May 02</time>
+        
+      </p>
+    
+    
+      <h4 class="entry-title">Backbone Collections and Foreign Keys</h4>
+    
+  </header>
+
+
+<div class="entry-content"><p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore &#8216;filter&#8217;, &#8216;find&#8217; and &#8216;where&#8217; methods to do the necessary lookups.</p>
+
+<pre><code>getByMappingIdAndCompanyId: function(mapping_id, company_id) {
+  var mapping = mappingsCollection.get(mapping_id);
+  return _.filter(mapping.get('data_series'), function(ds) {
+    var dataSeries = dataSeriesCollection.get(ds.id);
+    return (dataSeries !== undefined &amp;&amp; dataSeries.get('company_id') === company_id);
+  }, this);
+}
+</code></pre>
+
+<p>The code above worked, but it was horribly inefficient. In order to find a DataSeries by a mapping_id and company_id, you had to first find the mapping and then look through all the DataSeries it was associated with to find the one with the right company_id. Just so we&#8217;re all on the same page the associations looked like this:</p>
+
+<pre><code>DataSeries
+  belongs_to :company
+  has_many :mappings
+
+Mapping
+  belongs_to :company
+  has_many :data_series
+
+Company
+  has_many :data_series
+  has_many :mappings
+</code></pre>
+
+<p>For the next iteration, I modified the RABL file to include mapping_ids in the DataSeries models, and data_series_ids in the Mapping models. Client-side I hashed the models at creation via &#8216;add&#8217;, &#8216;remove&#8217;, &#8216;reset&#8217; events on the collection.</p>
+
+<pre><code>_hashModel: function(model) {
+  _.each(model.get('mapping_ids'), function(id) {
+    if(!_.has(this._mappingMap, id))
+      this._mappingMap[id] = {};
+    this._mappingMap[id][model.get('company_id')] = model;
+  }, this);
+
+  if(!_.has(this._companyMap, model.get('company_id')))
+    this._companyMap[model.get('company_id')] = {};
+  this._companyMap[model.get('company_id')][model.id] = model;
+},
+</code></pre>
+
+<p>There was two main scenarios for accessing the models: by both mapping_id and company_id, and just by company_id. So I created a hash to handle each case, in order to keep the lookup time constant. Although this pseudo-map isn&#8217;t nearly the same as a GLib hash table or STL Map, it&#8217;s safe to assume that lookups are O(1). If you&#8217;re going to be doing more lookups than hashing(adding keys is slow), its safe to use these techniques and worth the additional overhead to hold the &#8216;map&#8217; in memory.</p>
+
+<p>More recently, I&#8217;ve come across a similar scenario that involved model lookup by slug rather than id. MongoDB provides some unsightly ID&#8217;s so I employed the <a href="https://github.com/digitalplaywright/mongoid-slug">mongoid_slug</a> gem to handle slugging on the model&#8217;s name attribute. Mongoid-slug provides an overridden &#8216;find&#8217; method on the model, but using Backbone with a Single Page App, meant I could either always force a model lookup to the backend, or check the client-side collection first(ideal). However, due to the large number of models potentially present client-side, I wanted to avoid a call to _.find for a matching name attribute. Here&#8217;s the extended BaseCollection my collection extends https://gist.github.com/micahroberson/5493159</p>
+
+<pre><code>define [
+  'jquery', 'jqueryui', 'underscore', 'backbone'
+], 
+($, jqueryui, _, Backbone) -&gt;
+
+  class BaseCollection extends Backbone.Collection
+
+    initialize: () -&gt;
+      @bindHashEvents()
+
+    # e.g.
+    # hash_keys: [
+    #   'subject',
+    #   'message',
+    #   'buildSlug' # where buildSlug: () -&gt; "#{@get('name').downcase().replace(/\s/g,'-')}"
+    # ]
+    hash_keys: []
+
+    # key is the attribute originally set via hash_keys(e.g. 'name'), lookup_val is the search term (e.g. 'Frank')
+    retrieveFromHash: (key, lookup_val) -&gt;
+      if !key then return []
+
+      @["_#{key}_hash"][lookup_val]
+
+    bindHashEvents: (hash_keys) -&gt;
+      # Check for hash keys a la delegateEvents paradigm
+      if !(hash_keys || (hash_keys = _.result(this, 'hash_keys'))) then return @
+
+      _.each hash_keys, (key) =&gt;
+        # initialize hash
+        @["_#{key}_hash"] = {}
+
+        hashSingle = (model) =&gt;
+          # first check if key is method defined on the model, otherwise assume its an attribute on model
+          hk = if typeof model[key] == 'function' then model[key]() else model.get(key)
+          @["_#{key}_hash"][hk] = model unless !hk
+
+        @listenTo @, 'add', hashSingle
+
+        @listenTo @, 'reset', (collection) =&gt;
+          @["_#{key}_hash"] = {}
+          _.each(@models, hashSingle, @)
+
+        @listenTo @, 'remove', (model) =&gt;
+          hk = if typeof model[key] == 'function' then model[key]() else model.get(key)
+          delete @["_#{key}_hash"][hk]
+</code></pre>
+</div>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Micah Roberson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-02T08:16:00-07:00" pubdate data-updated="true">May 02</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/not-another-productivity-post/" title="Previous Post: Not Another Productivity Post">&laquo; Not Another Productivity Post</a>
+      
+      
+        <a class="basic-alignment right" href="/foundation-nav-w-jpanelmenu/" title="next Post: Foundation Nav w/ jPanelMenu">Foundation Nav w/ jPanelMenu &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.github.com/backbone-collections-and-foreign-keys/';
+        var disqus_url = 'http://micahroberson.github.com/backbone-collections-and-foreign-keys/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+</body>
+</html>

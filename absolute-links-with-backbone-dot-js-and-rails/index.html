@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Absolute Links with Backbone.js and Rails - Micah Roberson</title>
+  <meta name="author" content="Micah Roberson">
+
+  
+  <meta name="description" content="Methods for allowing users to refresh within a Backbone.js app or load a page within a Backbone.js app from an an absolute url">
+  <meta name="keywords" content="rails, backbone.js, backbone, require.js, single page app, refresh, push-state, history">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Micah Roberson" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34306816-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: url(/images/desk.jpg) fixed center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+"></div>
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: -1;
+"></div>
+<body id="skrollr-body"   class="no-sidebar"  >
+  <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
+  <a href="/">
+    <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
+  </a>
+  <div class="intro">
+    <h1>Micah Roberson</h1>
+    <h2>Developer &amp; Entrepreneur</h2>
+    <h4>San Francisco, California</h4>
+    <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
+  </div>
+</div>
+
+</header>
+  <nav role="navigation">
+  
+
+</nav>
+  <div id="main">
+    <div id="content" class="fadein">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
+        
+      </p>
+    
+    
+      <h4 class="entry-title">Absolute Links With Backbone.js and Rails</h4>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ideally user&#8217;s won&#8217;t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.</p>
+
+<p>To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails&#8217; perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I&#8217;ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I&#8217;m using Devise and also include some &#8220;api&#8221; scoped routes to illustrate how this particular app is setup.</p>
+
+<pre><code>devise_for :users
+scope :path =&gt; "api" do
+  resources :projects
+  ...
+  resources :posts
+end
+constraints :format =&gt; "html" do
+  match '*path', :controller =&gt; 'home', :action =&gt; 'index'
+end
+</code></pre>
+
+<p>Within the Home Index view, we just need to ensure we pass down that params[:path] value to the backbone router. This is a snippet from index.html.erb and also where I would include any bootstrapped data that the app would always need before starting up.</p>
+
+<pre><code>&lt;script&gt;
+  require([
+    'jquery',
+    'underscore',
+    'backbone',
+    'router'
+  ], function($, _, Backbone, Router){
+    $(function() {
+      // Set the current user
+      currentUserModel.set(#{Rabl::Renderer.new('users/current_user', current_user, :view_path =&gt; 'app/views').render});
+      // Navigate to the current route. One could also pull this from window.location.pathname if no fancy Rails manipulation is req'd
+      Router.navigate('&lt;%= params[:path].html_safe %&gt;', {trigger: true});
+    });
+  });
+&lt;/script&gt;
+</code></pre>
+
+<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won&#8217;t be available should the user arrive at the view from an absolute path. There&#8217;s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don&#8217;t if its not, but equip the view to react accordingly. For the former, there&#8217;s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
+
+<pre><code>before: () -&gt;
+  route = Backbone.history.fragment
+
+  if route.indexOf('dashboard') != -1 || route.indexOf('posts') != -1
+    if undefined == currentUserModel || currentUserModel.isNew()
+      @listenToOnce currentUserModel, 'change', () =&gt; Backbone.history.loadUrl(route)
+      return false
+</code></pre>
+
+<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn&#8217;t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
+
+<pre><code>render: () -&gt;
+  if !@model
+    @model = new userModel _id: @user_id
+    @listenToOnce @model, 'sync', @renderProfile
+    @model.fetch null, { success: () =&gt; @listenTo @model, 'change', @renderProfile }
+    usersCollection.add @model
+  else
+    @listenTo @model, 'change', @renderProfile
+    @renderProfile()
+
+  @$el.html _.template(profileTemplate)
+  @
+</code></pre>
+
+<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I&#8217;ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
+</div>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Micah Roberson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/rails-mongodb-and-embedded-docs/" title="Previous Post: MongoDB Schema Design">&laquo; MongoDB Schema Design</a>
+      
+      
+        <a class="basic-alignment right" href="/why-you-need-a-red-team/" title="next Post: Why You Need a Red Team">Why You Need a Red Team &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails/';
+        var disqus_url = 'http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+</body>
+</html>

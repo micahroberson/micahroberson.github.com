@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MongoDB Schema Design - Micah Roberson</title>
+  <meta name="author" content="Micah Roberson">
+
+  
+  <meta name="description" content="Thoughts on MongoDB and schema design.">
+  <meta name="keywords" content="rails, mongoid, mongodb, embedded_in, embeds_many, denormalizing">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://micahroberson.github.com/rails-mongodb-and-embedded-docs">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Micah Roberson" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34306816-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: url(/images/desk.jpg) fixed center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+"></div>
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: -1;
+"></div>
+<body id="skrollr-body"   class="no-sidebar"  >
+  <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
+  <a href="/">
+    <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
+  </a>
+  <div class="intro">
+    <h1>Micah Roberson</h1>
+    <h2>Developer &amp; Entrepreneur</h2>
+    <h4>San Francisco, California</h4>
+    <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
+  </div>
+</div>
+
+</header>
+  <nav role="navigation">
+  
+
+</nav>
+  <div id="main">
+    <div id="content" class="fadein">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T08:01:00-07:00" pubdate data-updated="true">May 12</time>
+        
+      </p>
+    
+    
+      <h4 class="entry-title">MongoDB Schema Design</h4>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m a big fan of MongoDB. I understand that it&#8217;s not great for every dataset out there, nor would I attempt to make it work with a highly relational dataset just because its shiny and new. What I do find rather appealing about MongoDB is the non-rigid document schema and the different mindset you have to have while developing. The non-rigid schema is important because it allows for very agile development and fast iterations. This doesn&#8217;t mean I condone adding and removing fields like crazy. I think I still make pretty calculated decisions when it comes to adding new fields to a collection just because I&#8217;ve been in the RDBMS world for so long - which is a good thing!</p>
+
+<p>The different mindset I mentioned, came about as a result of a conversation I had at <a href="http://www.10gen.com/events/mongodb-san-francisco-2013">MongoDB Days SF</a>. One of the presenters made a point about modeling the data in the database in the same way as you display it in the app. This is a completely different approach than one would take with a classic RDBMS backed application. With an RDBMS, you&#8217;re most likely going to attempt to normalize the entire schema and then potentially denormalize certain fields out on a case-by-case basis. We do all of this with the assumption that normalization is ideal, and redundancy is bad. I think this allusion comes from two things: a. storage space actually used to be an issue due to hardware constraints and thusly cost. and b. you can relatively easily access any piece of data with the use of joins and/or a number of other techniques in an RDBMS. With MongoDB, I&#8217;ll layout the design of a particular view and decide what the main domain model is, and if the view is going to be a list format, there&#8217;s probably some additional metadata from another model that needs to be displayed alongside(i.e. a list of comments, each showing the author thumnail picture and name). At this point, you need to denormalize that metadata in order to avoid the N+1 beast. Although denormalization is necessary for efficient queries, its not all that difficult to maintain nor is it a downside. I much prefer the overall approach to app development with MongoDB and find it much easier to relate the inner-workings to the UI.</p>
+</div>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Micah Roberson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-12T08:01:00-07:00" pubdate data-updated="true">May 12</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/foundation-nav-w-jpanelmenu/" title="Previous Post: Foundation Nav w/ jPanelMenu">&laquo; Foundation Nav w/ jPanelMenu</a>
+      
+      
+        <a class="basic-alignment right" href="/absolute-links-with-backbone-dot-js-and-rails/" title="next Post: Absolute Links with Backbone.js and Rails">Absolute Links with Backbone.js and Rails &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.github.com/rails-mongodb-and-embedded-docs/';
+        var disqus_url = 'http://micahroberson.github.com/rails-mongodb-and-embedded-docs/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+</body>
+</html>

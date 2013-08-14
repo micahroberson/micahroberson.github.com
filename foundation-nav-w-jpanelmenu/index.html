@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Foundation Nav w/ jPanelMenu - Micah Roberson</title>
+  <meta name="author" content="Micah Roberson">
+
+  
+  <meta name="description" content="Producing a more mobile friendly navbar in Foundation with a little help from JPanelMenu.">
+  <meta name="keywords" content="rails, single page app, foundation, zurb, jpanelmenu, mobile navigation, flyout menu, facebook style navigation">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://micahroberson.github.com/foundation-nav-w-jpanelmenu">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Micah Roberson" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34306816-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: url(/images/desk.jpg) fixed center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+"></div>
+<div style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: -1;
+"></div>
+<body id="skrollr-body"   class="no-sidebar"  >
+  <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
+  <a href="/">
+    <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
+  </a>
+  <div class="intro">
+    <h1>Micah Roberson</h1>
+    <h2>Developer &amp; Entrepreneur</h2>
+    <h4>San Francisco, California</h4>
+    <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
+  </div>
+</div>
+
+</header>
+  <nav role="navigation">
+  
+
+</nav>
+  <div id="main">
+    <div id="content" class="fadein">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-04T10:21:00-07:00" pubdate data-updated="true">May 04</time>
+        
+      </p>
+    
+    
+      <h4 class="entry-title">Foundation Nav W/ jPanelMenu</h4>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren&#8217;t satisfied with the default style.</p>
+
+<p><img class="width-50 right" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png"></p>
+
+<p>This isn&#8217;t horrible but it also isn&#8217;t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user - especially in the market we&#8217;re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn&#8217;t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
+
+<p><img class="width-50 left" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png"></p>
+
+<p>Much, much better than before - both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation&#8217;s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case).</p>
+
+<pre><code>[data-menu-position="open"] .container .fixed {
+  left: 200px;
+}
+
+.container header .fixed {
+  @include transition(ease-in-out left .3s);
+}
+</code></pre>
+</div>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Micah Roberson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-04T10:21:00-07:00" pubdate data-updated="true">May 04</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/backbone-collections-and-foreign-keys/" title="Previous Post: Backbone Collections and Foreign Keys">&laquo; Backbone Collections and Foreign Keys</a>
+      
+      
+        <a class="basic-alignment right" href="/rails-mongodb-and-embedded-docs/" title="next Post: MongoDB Schema Design">MongoDB Schema Design &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.github.com/foundation-nav-w-jpanelmenu/';
+        var disqus_url = 'http://micahroberson.github.com/foundation-nav-w-jpanelmenu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+  </section>
+
+</div>
+
+
+    </div>
+  </div>
+</body>
+</html>

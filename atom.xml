@@ -4,7 +4,7 @@
   <title><![CDATA[Micah Roberson]]></title>
   <link href="http://micahroberson.github.com/atom.xml" rel="self"/>
   <link href="http://micahroberson.github.com/"/>
-  <updated>2013-08-17T10:48:29-07:00</updated>
+  <updated>2013-08-17T11:52:58-07:00</updated>
   <id>http://micahroberson.github.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Preventing Duplicate Content | Rails SEO Tip]]></title>
+    <link href="http://micahroberson.github.com/prevent_duplicate_content/"/>
+    <updated>2013-08-17T11:13:00-07:00</updated>
+    <id>http://micahroberson.github.com/prevent_duplicate_content</id>
+    <content type="html"><![CDATA[<p>It&#8217;s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there&#8217;s a simple solution for site&#8217;s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we&#8217;re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.</p>
+
+<p>For this example, I&#8217;m going to use some snippets from the main Rails app behind <a href="https://greeksquare.com">GreekSquare</a>. Let&#8217;s begin by adding the rack-rewrite gem:</p>
+
+<pre><code>gem 'rack-rewrite'
+</code></pre>
+
+<p>Once the gem is installed, its as simple as adding some rules to production.rb. If you plan on having several rules, it would be best to put this in an initializer.</p>
+
+<pre><code>config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
+  r301 %r{.*}, 'http://greeksquare.com$&amp;', :if =&gt; Proc.new {|rack_env|
+    rack_env['SERVER_NAME'] == 'www.greeksquare.com' || rack_env['SERVER_NAME'].include?('herokuapp')
+  }
+end
+</code></pre>
+
+<p>In this example I&#8217;m rewriting all &#8216;www.greeksquare.com&#8217; and &#8216;greeksquare.herokuapp.com&#8217; requests to simply be the naked domain &#8216;greeksquare.com&#8217;.  Also notice the redirect status code being used, r301, which indicates the site has &#8216;Moved Permanently&#8217;. More info on status codes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">here</a>.</p>
+
+<p>It&#8217;s also a good idea to make sure you set the Preferred domain in Google&#8217;s Webmaster Tools. It&#8217;s easy to get setup with Webmaster Tools, and once you do just visit the Site Settings page where you&#8217;ll find the form below:</p>
+
+<p><img class="center" src="http://micahroberson.github.com/images/preferred_url.png"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Why You Need a Red Team]]></title>

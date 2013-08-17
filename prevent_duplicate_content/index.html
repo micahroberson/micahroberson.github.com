@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Why You Need a Red Team - Micah Roberson</title>
+  <title>Preventing Duplicate Content | Rails SEO Tip - Micah Roberson</title>
   <meta name="author" content="Micah Roberson">
 
   
-  <meta name="description" content="Why its important to have a red team in the software development industry">
-  <meta name="keywords" content="software development, newsroom, red team, rails, consulting">
+  <meta name="description" content="Canonicalization is the SEO concept of redirecting multiple URLs to a single master URL. Learn how to implement a solution in Ruby on Rails to &hellip;">
+  <meta name="keywords" content="seo, duplicate content, ruby on rails, rails, canonicalization, multiple urls, preferred domain">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://micahroberson.github.com/why-you-need-a-red-team">
+  <link rel="canonical" href="http://micahroberson.github.com/prevent_duplicate_content">
   <link href="/favicon.ico" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -122,21 +122,37 @@
   
 
 
-<time datetime="2013-08-14T08:47:00-07:00" pubdate data-updated="true">Aug 14</time>
+<time datetime="2013-08-17T11:13:00-07:00" pubdate data-updated="true">Aug 17</time>
         
       </p>
     
     
-      <h4 class="entry-title">Why You Need a Red Team</h4>
+      <h4 class="entry-title">Preventing Duplicate Content | Rails SEO Tip</h4>
     
   </header>
 
 
-<div class="entry-content"><p>A couple of weeks ago, an episode of HBO&#8217;s <em>The Newsroom</em> brought to light the concept and importance of having a &#8216;red team&#8217;. The red team, as described in the show, is a select group of team members who are intentionally left in the dark while a story is flushed out. Once enough &#8216;proof&#8217; has been established by the reporters chasing the story, they would then run it by the red team to see if the fresh eyes can poke any holes in it.</p>
+<div class="entry-content"><p>It&#8217;s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there&#8217;s a simple solution for site&#8217;s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we&#8217;re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.</p>
 
-<p>The concept certainly isn&#8217;t new and you probably use it already, but perhaps not as often as you should. Its especially valuable to have a fresh perspective on a website you&#8217;ve been heads-down on for the past month before releasing for the client. It&#8217;s not uncommon for the seemingly miniscule assumptions you started the project with, to grow into some pretty large and unpredicted changes by the end, so it&#8217;s important to make sure the team made the right decisions along the way. The best way to do this is to show a team member the dev site and see if they can identify how all of the requirements have been met.</p>
+<p>For this example, I&#8217;m going to use some snippets from the main Rails app behind <a href="https://greeksquare.com">GreekSquare</a>. Let&#8217;s begin by adding the rack-rewrite gem:</p>
 
-<p>Any process where someone&#8217;s work is reviewed by another team member is similar to a red team scenario, but there&#8217;s one major difference: the reviewer is oftentimes not looking for reasons the work is poor, but rather reasons said work is good or OK. With this comes differing levels of scrutiny, and resultantly not all of the same problems will be identified by the more positive reviewer as those identified by the more negative reviewer. Use your best judgement to determine if a scenario requires the use of a red team, but most situations where the main team has any doubt or made several assumptions are generally good candidates and will see the most benefit.</p>
+<pre><code>gem 'rack-rewrite'
+</code></pre>
+
+<p>Once the gem is installed, its as simple as adding some rules to production.rb. If you plan on having several rules, it would be best to put this in an initializer.</p>
+
+<pre><code>config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
+  r301 %r{.*}, 'http://greeksquare.com$&amp;', :if =&gt; Proc.new {|rack_env|
+    rack_env['SERVER_NAME'] == 'www.greeksquare.com' || rack_env['SERVER_NAME'].include?('herokuapp')
+  }
+end
+</code></pre>
+
+<p>In this example I&#8217;m rewriting all &#8216;www.greeksquare.com&#8217; and &#8216;greeksquare.herokuapp.com&#8217; requests to simply be the naked domain &#8216;greeksquare.com&#8217;.  Also notice the redirect status code being used, r301, which indicates the site has &#8216;Moved Permanently&#8217;. More info on status codes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">here</a>.</p>
+
+<p>It&#8217;s also a good idea to make sure you set the Preferred domain in Google&#8217;s Webmaster Tools. It&#8217;s easy to get setup with Webmaster Tools, and once you do just visit the Site Settings page where you&#8217;ll find the form below:</p>
+
+<p><img class="center" src="/images/preferred_url.png"></p>
 </div>
 
   <footer>
@@ -158,7 +174,7 @@
   
 
 
-<time datetime="2013-08-14T08:47:00-07:00" pubdate data-updated="true">Aug 14</time>
+<time datetime="2013-08-17T11:13:00-07:00" pubdate data-updated="true">Aug 17</time>
       
 
 
@@ -177,10 +193,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/absolute-links-with-backbone-dot-js-and-rails/" title="Previous Post: Absolute Links with Backbone.js and Rails">&laquo; Absolute Links with Backbone.js and Rails</a>
+        <a class="basic-alignment left" href="/why-you-need-a-red-team/" title="Previous Post: Why You Need a Red Team">&laquo; Why You Need a Red Team</a>
       
-      
-        <a class="basic-alignment right" href="/prevent_duplicate_content/" title="next Post: Preventing Duplicate Content | Rails SEO Tip">Preventing Duplicate Content | Rails SEO Tip &raquo;</a>
       
     </p>
   </footer>

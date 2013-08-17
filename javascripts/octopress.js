@@ -132,7 +132,7 @@ $.domReady(function() {
   addCodeLineNumbers();
   getNav();
   addSidebarToggler();
-  $('a').click(fadeoutContent);
+  $('a:not(.social-media-link)').click(fadeoutContent);
 });
 
 // iOS scaling bug fix

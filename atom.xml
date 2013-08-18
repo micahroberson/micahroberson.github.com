@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Micah Roberson]]></title>
-  <link href="http://micahroberson.github.com/atom.xml" rel="self"/>
-  <link href="http://micahroberson.github.com/"/>
-  <updated>2013-08-17T11:54:29-07:00</updated>
-  <id>http://micahroberson.github.com/</id>
+  <link href="http://micahroberson.com/atom.xml" rel="self"/>
+  <link href="http://micahroberson.com/"/>
+  <updated>2013-08-17T18:46:46-07:00</updated>
+  <id>http://micahroberson.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>
     <email><![CDATA[micah.roberson@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Preventing Duplicate Content | Rails SEO Tip]]></title>
-    <link href="http://micahroberson.github.com/preventing-duplicate-content/"/>
+    <link href="http://micahroberson.com/preventing-duplicate-content/"/>
     <updated>2013-08-17T11:13:00-07:00</updated>
-    <id>http://micahroberson.github.com/preventing-duplicate-content</id>
+    <id>http://micahroberson.com/preventing-duplicate-content</id>
     <content type="html"><![CDATA[<p>It&#8217;s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there&#8217;s a simple solution for site&#8217;s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we&#8217;re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.</p>
 
 <p>For this example, I&#8217;m going to use some snippets from the main Rails app behind <a href="https://greeksquare.com">GreekSquare</a>. Let&#8217;s begin by adding the rack-rewrite gem:</p>
@@ -38,15 +38,15 @@ end
 
 <p>It&#8217;s also a good idea to make sure you set the Preferred domain in Google&#8217;s Webmaster Tools. It&#8217;s easy to get setup with Webmaster Tools, and once you do just visit the Site Settings page where you&#8217;ll find the form below:</p>
 
-<p><img class="center" src="http://micahroberson.github.com/images/preferred_url.png"></p>
+<p><img class="center" src="http://micahroberson.com/images/preferred_url.png"></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Why You Need a Red Team]]></title>
-    <link href="http://micahroberson.github.com/why-you-need-a-red-team/"/>
+    <link href="http://micahroberson.com/why-you-need-a-red-team/"/>
     <updated>2013-08-14T08:47:00-07:00</updated>
-    <id>http://micahroberson.github.com/why-you-need-a-red-team</id>
+    <id>http://micahroberson.com/why-you-need-a-red-team</id>
     <content type="html"><![CDATA[<p>A couple of weeks ago, an episode of HBO&#8217;s <em>The Newsroom</em> brought to light the concept and importance of having a &#8216;red team&#8217;. The red team, as described in the show, is a select group of team members who are intentionally left in the dark while a story is flushed out. Once enough &#8216;proof&#8217; has been established by the reporters chasing the story, they would then run it by the red team to see if the fresh eyes can poke any holes in it.</p>
 
 <p>The concept certainly isn&#8217;t new and you probably use it already, but perhaps not as often as you should. Its especially valuable to have a fresh perspective on a website you&#8217;ve been heads-down on for the past month before releasing for the client. It&#8217;s not uncommon for the seemingly miniscule assumptions you started the project with, to grow into some pretty large and unpredicted changes by the end, so it&#8217;s important to make sure the team made the right decisions along the way. The best way to do this is to show a team member the dev site and see if they can identify how all of the requirements have been met.</p>
@@ -57,9 +57,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Absolute Links with Backbone.js and Rails]]></title>
-    <link href="http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails/"/>
+    <link href="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/"/>
     <updated>2013-07-18T09:15:00-07:00</updated>
-    <id>http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails</id>
+    <id>http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails</id>
     <content type="html"><![CDATA[<p>Ideally user&#8217;s won&#8217;t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.</p>
 
 <p>To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails&#8217; perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I&#8217;ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I&#8217;m using Devise and also include some &#8220;api&#8221; scoped routes to illustrate how this particular app is setup.</p>
@@ -127,9 +127,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[MongoDB Schema Design]]></title>
-    <link href="http://micahroberson.github.com/rails-mongodb-and-embedded-docs/"/>
+    <link href="http://micahroberson.com/rails-mongodb-and-embedded-docs/"/>
     <updated>2013-05-12T08:01:00-07:00</updated>
-    <id>http://micahroberson.github.com/rails-mongodb-and-embedded-docs</id>
+    <id>http://micahroberson.com/rails-mongodb-and-embedded-docs</id>
     <content type="html"><![CDATA[<p>I&#8217;m a big fan of MongoDB. I understand that it&#8217;s not great for every dataset out there, nor would I attempt to make it work with a highly relational dataset just because its shiny and new. What I do find rather appealing about MongoDB is the non-rigid document schema and the different mindset you have to have while developing. The non-rigid schema is important because it allows for very agile development and fast iterations. This doesn&#8217;t mean I condone adding and removing fields like crazy. I think I still make pretty calculated decisions when it comes to adding new fields to a collection just because I&#8217;ve been in the RDBMS world for so long - which is a good thing!</p>
 
 <p>The different mindset I mentioned, came about as a result of a conversation I had at <a href="http://www.10gen.com/events/mongodb-san-francisco-2013">MongoDB Days SF</a>. One of the presenters made a point about modeling the data in the database in the same way as you display it in the app. This is a completely different approach than one would take with a classic RDBMS backed application. With an RDBMS, you&#8217;re most likely going to attempt to normalize the entire schema and then potentially denormalize certain fields out on a case-by-case basis. We do all of this with the assumption that normalization is ideal, and redundancy is bad. I think this allusion comes from two things: a. storage space actually used to be an issue due to hardware constraints and thusly cost. and b. you can relatively easily access any piece of data with the use of joins and/or a number of other techniques in an RDBMS. With MongoDB, I&#8217;ll layout the design of a particular view and decide what the main domain model is, and if the view is going to be a list format, there&#8217;s probably some additional metadata from another model that needs to be displayed alongside(i.e. a list of comments, each showing the author thumnail picture and name). At this point, you need to denormalize that metadata in order to avoid the N+1 beast. Although denormalization is necessary for efficient queries, its not all that difficult to maintain nor is it a downside. I much prefer the overall approach to app development with MongoDB and find it much easier to relate the inner-workings to the UI.</p>
@@ -138,16 +138,16 @@ end
   
   <entry>
     <title type="html"><![CDATA[Foundation Nav w/ jPanelMenu]]></title>
-    <link href="http://micahroberson.github.com/foundation-nav-w-jpanelmenu/"/>
+    <link href="http://micahroberson.com/foundation-nav-w-jpanelmenu/"/>
     <updated>2013-05-04T10:21:00-07:00</updated>
-    <id>http://micahroberson.github.com/foundation-nav-w-jpanelmenu</id>
+    <id>http://micahroberson.com/foundation-nav-w-jpanelmenu</id>
     <content type="html"><![CDATA[<p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren&#8217;t satisfied with the default style.</p>
 
-<p><img class="width-50 right" src="http://micahroberson.github.com//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png"></p>
+<p><img class="width-50 right" src="http://micahroberson.com//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png"></p>
 
 <p>This isn&#8217;t horrible but it also isn&#8217;t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user - especially in the market we&#8217;re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn&#8217;t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
 
-<p><img class="width-50 left" src="http://micahroberson.github.com//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png"></p>
+<p><img class="width-50 left" src="http://micahroberson.com//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png"></p>
 
 <p>Much, much better than before - both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation&#8217;s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case).</p>
 
@@ -164,9 +164,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Backbone Collections and Foreign Keys]]></title>
-    <link href="http://micahroberson.github.com/backbone-collections-and-foreign-keys/"/>
+    <link href="http://micahroberson.com/backbone-collections-and-foreign-keys/"/>
     <updated>2013-05-02T08:16:00-07:00</updated>
-    <id>http://micahroberson.github.com/backbone-collections-and-foreign-keys</id>
+    <id>http://micahroberson.com/backbone-collections-and-foreign-keys</id>
     <content type="html"><![CDATA[<p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore &#8216;filter&#8217;, &#8216;find&#8217; and &#8216;where&#8217; methods to do the necessary lookups.</p>
 
 <pre><code>getByMappingIdAndCompanyId: function(mapping_id, company_id) {
@@ -264,9 +264,9 @@ Company
   
   <entry>
     <title type="html"><![CDATA[Not Another Productivity Post]]></title>
-    <link href="http://micahroberson.github.com/not-another-productivity-post/"/>
+    <link href="http://micahroberson.com/not-another-productivity-post/"/>
     <updated>2012-12-01T13:21:00-08:00</updated>
-    <id>http://micahroberson.github.com/not-another-productivity-post</id>
+    <id>http://micahroberson.com/not-another-productivity-post</id>
     <content type="html"><![CDATA[<p>Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.</p>
 
 <p>Our very first client came back for additional projects a number of times. While working on the most recent of these, James pointed out that we are always much more efficient when working on projects for this client than anything else. I gave it some thought, and came up with a few main reasons:</p>

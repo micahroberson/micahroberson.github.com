@@ -1,43 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://micahroberson.github.com/not-another-productivity-post/</loc>
+        <loc>http://micahroberson.com/not-another-productivity-post/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/backbone-collections-and-foreign-keys/</loc>
+        <loc>http://micahroberson.com/backbone-collections-and-foreign-keys/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/foundation-nav-w-jpanelmenu/</loc>
+        <loc>http://micahroberson.com/foundation-nav-w-jpanelmenu/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/rails-mongodb-and-embedded-docs/</loc>
+        <loc>http://micahroberson.com/rails-mongodb-and-embedded-docs/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/absolute-links-with-backbone-dot-js-and-rails/</loc>
+        <loc>http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/why-you-need-a-red-team/</loc>
+        <loc>http://micahroberson.com/why-you-need-a-red-team/</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/preventing-duplicate-content/</loc>
-        <lastmod>2013-08-17T11:51:44-07:00</lastmod>
+        <loc>http://micahroberson.com/preventing-duplicate-content/</loc>
+        <lastmod>2013-08-17T18:45:08-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/404.html</loc>
+        <loc>http://micahroberson.com/404.html</loc>
         <lastmod>2013-08-17T10:46:45-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/blog/archives/</loc>
-        <lastmod>2013-08-17T11:51:44-07:00</lastmod>
+        <loc>http://micahroberson.com/blog/archives/</loc>
+        <lastmod>2013-08-17T18:45:08-07:00</lastmod>
     </url>
     <url>
-        <loc>http://micahroberson.github.com/</loc>
-        <lastmod>2013-08-17T11:51:44-07:00</lastmod>
+        <loc>http://micahroberson.com/</loc>
+        <lastmod>2013-08-17T18:45:08-07:00</lastmod>
     </url>
 </urlset>

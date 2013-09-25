@@ -4,7 +4,7 @@
   <title><![CDATA[Micah Roberson]]></title>
   <link href="http://micahroberson.com/atom.xml" rel="self"/>
   <link href="http://micahroberson.com/"/>
-  <updated>2013-09-25T15:18:53-07:00</updated>
+  <updated>2013-09-25T15:30:19-07:00</updated>
   <id>http://micahroberson.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>
@@ -19,6 +19,8 @@
     <updated>2013-09-25T10:35:00-07:00</updated>
     <id>http://micahroberson.com/saving-drag-and-drop-sort-position</id>
     <content type="html"><![CDATA[<p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop &#8216;cards&#8217; in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application.</p>
+
+<p><img class="width-100" src="http://micahroberson.com/images/dragndrop.png"></p>
 
 <p>I considered the following factors/constraints when determining the best implementation:</p>
 

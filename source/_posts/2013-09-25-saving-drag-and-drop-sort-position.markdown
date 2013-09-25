@@ -6,9 +6,12 @@ date: 2013-09-25 10:35
 comments: true
 keywords: drag and drop, sort position, sort index, efficient, store, save
 description: Efficiently store and retrieve sort ordering/positioning in a drag and drop GUI built with jQuery UI, Backbone.js, Rails and MongoDB.
+cover: http://micahroberson.com/images/dragndrop.png
 ---
 
 We recently began work on an in-house solution for managing our projects at [ReadyApps](https://www.readyappsdev.com), and this solution requires that we have the ability to drag and drop 'cards' in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
+
+{% img width-100 /images/dragndrop.png %}
 
 I considered the following factors/constraints when determining the best implementation:
 

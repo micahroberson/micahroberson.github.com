@@ -139,9 +139,9 @@
   </header>
 
 
-<div class="entry-content"><p>Ideally user&#8217;s won&#8217;t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.</p>
+<div class="entry-content"><p>Ideally user&rsquo;s won&rsquo;t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.</p>
 
-<p>To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails&#8217; perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I&#8217;ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I&#8217;m using Devise and also include some &#8220;api&#8221; scoped routes to illustrate how this particular app is setup.</p>
+<p>To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails&#8217; perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I&rsquo;ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I&rsquo;m using Devise and also include some &ldquo;api&rdquo; scoped routes to illustrate how this particular app is setup.</p>
 
 <pre><code>devise_for :users
 scope :path =&gt; "api" do
@@ -173,7 +173,7 @@ end
 &lt;/script&gt;
 </code></pre>
 
-<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won&#8217;t be available should the user arrive at the view from an absolute path. There&#8217;s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don&#8217;t if its not, but equip the view to react accordingly. For the former, there&#8217;s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
+<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won&rsquo;t be available should the user arrive at the view from an absolute path. There&rsquo;s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don&rsquo;t if its not, but equip the view to react accordingly. For the former, there&rsquo;s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
 
 <pre><code>before: () -&gt;
   route = Backbone.history.fragment
@@ -184,7 +184,7 @@ end
       return false
 </code></pre>
 
-<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn&#8217;t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
+<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn&rsquo;t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
 
 <pre><code>render: () -&gt;
   if !@model
@@ -200,7 +200,7 @@ end
   @
 </code></pre>
 
-<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I&#8217;ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
+<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I&rsquo;ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
 </div>
 
   <footer>

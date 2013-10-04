@@ -141,7 +141,7 @@
   </header>
 
 
-<div class="entry-content"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop &#8216;cards&#8217; in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application.</p>
+<div class="entry-content"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop &lsquo;cards&rsquo; in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application.</p>
 
 <p><img class="width-100" src="/images/dragndrop.png"></p>
 
@@ -158,13 +158,13 @@
 </ul>
 
 
-<p>The simplest solution would be to simply store a &#8216;position&#8217; on each card as an integer and sort by that column when retrieving from the database. However, this solution would require that dragging Card A from position 8 to position 1 would need to update all cards with position > 1. Although the query is trivial, these cards would need to be updated client-side as well in order to maintain a clean state. Clean state is important for allowing consecutive moves as well as updates from websockets.</p>
+<p>The simplest solution would be to simply store a &lsquo;position&rsquo; on each card as an integer and sort by that column when retrieving from the database. However, this solution would require that dragging Card A from position 8 to position 1 would need to update all cards with position > 1. Although the query is trivial, these cards would need to be updated client-side as well in order to maintain a clean state. Clean state is important for allowing consecutive moves as well as updates from websockets.</p>
 
-<p>Another solution is to store the sort order outside of the actual cards - ie. an array of card ids on the project model. I would prefer the order to be saved on the actual card (for API purposes, it makes more sense to be able to sort the cards without having the actual project model as well), this method also requires that we redraw every card on a change. I suppose we could diff the arrays client-side and determine which cards need to be moved, but I haven&#8217;t actually thought it through enough to be sure that would work efficiently.</p>
+<p>Another solution is to store the sort order outside of the actual cards &ndash; ie. an array of card ids on the project model. I would prefer the order to be saved on the actual card (for API purposes, it makes more sense to be able to sort the cards without having the actual project model as well), this method also requires that we redraw every card on a change. I suppose we could diff the arrays client-side and determine which cards need to be moved, but I haven&rsquo;t actually thought it through enough to be sure that would work efficiently.</p>
 
-<p>The runner-up solution was to store the position on a card but as a double rather than an integer. Keeping this value a double means we can simply set the new position to half of the difference between the two cards. Moving a card from position 8 to position 1(assuming all cards have integer positions at this point), we would set the new position to (1 - 0) / 2 = 0.5. This would require a single save on the card that changed position, and we could still sort on the position column when retrieving the data. This also allows for handling position changes from other users via websockets. The one limitation is the number of rearrangements a user can make. Eventually we&#8217;re going to max out the decimal places on the double. We could re-sort all of the elements with a background job when the cards approach this limit, but that doesn&#8217;t seem like the right way to solve the problem.</p>
+<p>The runner-up solution was to store the position on a card but as a double rather than an integer. Keeping this value a double means we can simply set the new position to half of the difference between the two cards. Moving a card from position 8 to position 1(assuming all cards have integer positions at this point), we would set the new position to (1 &ndash; 0) / 2 = 0.5. This would require a single save on the card that changed position, and we could still sort on the position column when retrieving the data. This also allows for handling position changes from other users via websockets. The one limitation is the number of rearrangements a user can make. Eventually we&rsquo;re going to max out the decimal places on the double. We could re-sort all of the elements with a background job when the cards approach this limit, but that doesn&rsquo;t seem like the right way to solve the problem.</p>
 
-<p>The solution we ended up going with is to simulate a linked-list in order to maintain relevent position. Each card stores the id of the card it follows. This makes client-side updates extremely easy: if a card model changes, we simply find the id it follows and append it right after. As far as the client knows, only a single ajax call is required. Server-side, there&#8217;s actually two more operations that need to take place: updating the new follower of the card that moved, and updating the previous follower of the card that moved. When retrieving the data server-side, we can put all of the cards in order with a simple loop. Although the operation isn&#8217;t linear, the complexity is roughly O(n log n) - on par with mergesort. Some quick benchmarking showed the following results:</p>
+<p>The solution we ended up going with is to simulate a linked-list in order to maintain relevent position. Each card stores the id of the card it follows. This makes client-side updates extremely easy: if a card model changes, we simply find the id it follows and append it right after. As far as the client knows, only a single ajax call is required. Server-side, there&rsquo;s actually two more operations that need to take place: updating the new follower of the card that moved, and updating the previous follower of the card that moved. When retrieving the data server-side, we can put all of the cards in order with a simple loop. Although the operation isn&rsquo;t linear, the complexity is roughly O(n log n) &ndash; on par with mergesort. Some quick benchmarking showed the following results:</p>
 
 <ul>
 <li>0.001941s for 10 cards</li>
@@ -173,9 +173,9 @@
 </ul>
 
 
-<p>Although it starts to climb quickly upwards of 1000 cards, its highly unlikely that a user would ever add that many cards and still expect good performance, so we&#8217;re content with the results.</p>
+<p>Although it starts to climb quickly upwards of 1000 cards, its highly unlikely that a user would ever add that many cards and still expect good performance, so we&rsquo;re content with the results.</p>
 
-<p>Implementing the solution client-side with <a href="http://www.backbonejs.org">Backbone.js</a> and <a href="http://www.jqueryui.com">jQuery UI</a> is done with the following method to be called after a card is &#8216;dropped&#8217;:</p>
+<p>Implementing the solution client-side with <a href="http://www.backbonejs.org">Backbone.js</a> and <a href="http://www.jqueryui.com">jQuery UI</a> is done with the following method to be called after a card is &lsquo;dropped&rsquo;:</p>
 
 <pre><code>updatePositions: (e, ui) =&gt;
   $ui = ui.item
@@ -190,7 +190,7 @@
     )
 </code></pre>
 
-<p>Server-side we&#8217;ll add a method to be called after updating the after_card_id(ID of the preceding card, nil if first) of the card that moved:</p>
+<p>Server-side we&rsquo;ll add a method to be called after updating the after_card_id(ID of the preceding card, nil if first) of the card that moved:</p>
 
 <pre><code>def update_after_card(stage_id_was, after_card_id_was)
   # Update card that previously came after
@@ -292,6 +292,8 @@ end
       
         <a class="basic-alignment left" href="/preventing-duplicate-content/" title="Previous Post: Preventing Duplicate Content | Rails SEO Tip">&laquo; Preventing Duplicate Content | Rails SEO Tip</a>
       
+      
+        <a class="basic-alignment right" href="/upload-files-directly-to-s3-w-backbone-on-heroku/" title="next Post: Upload files directly to S3 w/ Backbone on Heroku">Upload files directly to S3 w/ Backbone on Heroku &raquo;</a>
       
     </p>
   </footer>

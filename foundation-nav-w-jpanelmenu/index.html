@@ -139,15 +139,15 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren&#8217;t satisfied with the default style.</p>
+<div class="entry-content"><p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren&rsquo;t satisfied with the default style.</p>
 
 <p><img class="width-50 right" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png"></p>
 
-<p>This isn&#8217;t horrible but it also isn&#8217;t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user - especially in the market we&#8217;re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn&#8217;t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
+<p>This isn&rsquo;t horrible but it also isn&rsquo;t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user &ndash; especially in the market we&rsquo;re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn&rsquo;t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
 
 <p><img class="width-50 left" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png"></p>
 
-<p>Much, much better than before - both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation&#8217;s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case).</p>
+<p>Much, much better than before &ndash; both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation&rsquo;s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case).</p>
 
 <pre><code>[data-menu-position="open"] .container .fixed {
   left: 200px;

@@ -139,7 +139,7 @@
   </header>
 
 
-<div class="entry-content"><p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore &#8216;filter&#8217;, &#8216;find&#8217; and &#8216;where&#8217; methods to do the necessary lookups.</p>
+<div class="entry-content"><p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore &lsquo;filter&rsquo;, &lsquo;find&rsquo; and &lsquo;where&rsquo; methods to do the necessary lookups.</p>
 
 <pre><code>getByMappingIdAndCompanyId: function(mapping_id, company_id) {
   var mapping = mappingsCollection.get(mapping_id);
@@ -150,7 +150,7 @@
 }
 </code></pre>
 
-<p>The code above worked, but it was horribly inefficient. In order to find a DataSeries by a mapping_id and company_id, you had to first find the mapping and then look through all the DataSeries it was associated with to find the one with the right company_id. Just so we&#8217;re all on the same page the associations looked like this:</p>
+<p>The code above worked, but it was horribly inefficient. In order to find a DataSeries by a mapping_id and company_id, you had to first find the mapping and then look through all the DataSeries it was associated with to find the one with the right company_id. Just so we&rsquo;re all on the same page the associations looked like this:</p>
 
 <pre><code>DataSeries
   belongs_to :company
@@ -165,7 +165,7 @@ Company
   has_many :mappings
 </code></pre>
 
-<p>For the next iteration, I modified the RABL file to include mapping_ids in the DataSeries models, and data_series_ids in the Mapping models. Client-side I hashed the models at creation via &#8216;add&#8217;, &#8216;remove&#8217;, &#8216;reset&#8217; events on the collection.</p>
+<p>For the next iteration, I modified the RABL file to include mapping_ids in the DataSeries models, and data_series_ids in the Mapping models. Client-side I hashed the models at creation via &lsquo;add&rsquo;, &lsquo;remove&rsquo;, &lsquo;reset&rsquo; events on the collection.</p>
 
 <pre><code>_hashModel: function(model) {
   _.each(model.get('mapping_ids'), function(id) {
@@ -180,9 +180,9 @@ Company
 },
 </code></pre>
 
-<p>There was two main scenarios for accessing the models: by both mapping_id and company_id, and just by company_id. So I created a hash to handle each case, in order to keep the lookup time constant. Although this pseudo-map isn&#8217;t nearly the same as a GLib hash table or STL Map, it&#8217;s safe to assume that lookups are O(1). If you&#8217;re going to be doing more lookups than hashing(adding keys is slow), its safe to use these techniques and worth the additional overhead to hold the &#8216;map&#8217; in memory.</p>
+<p>There was two main scenarios for accessing the models: by both mapping_id and company_id, and just by company_id. So I created a hash to handle each case, in order to keep the lookup time constant. Although this pseudo-map isn&rsquo;t nearly the same as a GLib hash table or STL Map, it&rsquo;s safe to assume that lookups are O(1). If you&rsquo;re going to be doing more lookups than hashing(adding keys is slow), its safe to use these techniques and worth the additional overhead to hold the &lsquo;map&rsquo; in memory.</p>
 
-<p>More recently, I&#8217;ve come across a similar scenario that involved model lookup by slug rather than id. MongoDB provides some unsightly ID&#8217;s so I employed the <a href="https://github.com/digitalplaywright/mongoid-slug">mongoid_slug</a> gem to handle slugging on the model&#8217;s name attribute. Mongoid-slug provides an overridden &#8216;find&#8217; method on the model, but using Backbone with a Single Page App, meant I could either always force a model lookup to the backend, or check the client-side collection first(ideal). However, due to the large number of models potentially present client-side, I wanted to avoid a call to _.find for a matching name attribute. Here&#8217;s the extended BaseCollection my collection extends https://gist.github.com/micahroberson/5493159</p>
+<p>More recently, I&rsquo;ve come across a similar scenario that involved model lookup by slug rather than id. MongoDB provides some unsightly ID&rsquo;s so I employed the <a href="https://github.com/digitalplaywright/mongoid-slug">mongoid_slug</a> gem to handle slugging on the model&rsquo;s name attribute. Mongoid-slug provides an overridden &lsquo;find&rsquo; method on the model, but using Backbone with a Single Page App, meant I could either always force a model lookup to the backend, or check the client-side collection first(ideal). However, due to the large number of models potentially present client-side, I wanted to avoid a call to _.find for a matching name attribute. Here&rsquo;s the extended BaseCollection my collection extends <a href="https://gist.github.com/micahroberson/5493159">https://gist.github.com/micahroberson/5493159</a></p>
 
 <pre><code>define [
   'jquery', 'jqueryui', 'underscore', 'backbone'

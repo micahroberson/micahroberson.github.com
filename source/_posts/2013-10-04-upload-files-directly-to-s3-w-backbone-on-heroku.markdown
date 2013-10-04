@@ -21,11 +21,11 @@ You can find my forked repo with the necessary S3Upload lib here: [https://githu
 
 To a Backbone view I've added the following:
 
-    # Listener to detect when the use has selected a file.
+    # Listener to detect when the user has selected a file.
     # We could also opt for a click event on an 'Upload Files' button instead
     events:
       'change input#Files': 'onChangeFiles'
-    
+
     ...
 
     # Listen for newly added models and render a view for each
@@ -49,7 +49,7 @@ To a Backbone view I've added the following:
       @uploadToS3
         files_dropped: false,
         file_dom_selector: '#Files'
-    
+
     ...
 
     # Instantiation of a new S3Upload with custom callbacks

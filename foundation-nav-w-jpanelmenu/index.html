@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,29 +75,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Foundation Nav W/ jPanelMenu</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -130,24 +98,23 @@
 
 
 <time datetime="2013-05-04T10:21:00-07:00" pubdate data-updated="true">May 04</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Foundation Nav W/ jPanelMenu</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren&rsquo;t satisfied with the default style.</p>
+<div class="entry-content"><p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren’t satisfied with the default style. 
+<!--more--></p>
 
-<p><img class="width-50 right" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png"></p>
+<p><img class="width-50 right" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-expanded.png" /></p>
 
-<p>This isn&rsquo;t horrible but it also isn&rsquo;t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user &ndash; especially in the market we&rsquo;re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn&rsquo;t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
+<p>This isn’t horrible but it also isn’t great. I strongly believe a great ui is extremely important and provides for a ton of value to the end-user - especially in the market we’re going after. I set out to find a suitable javascript implementation of a mobile navigation similar to the Facebook mobile app. I tried several different jquery plugins, but they were all extremely invasive and resulted in messy code with clunky javascript animations that didn’t fare too well when I tested on an actual device. Finally I came across <a href="http://jpanelmenu.com/">jPanelMenu</a>. jPanelMenu is a lightweight(10kb minified) jquery plugin that lets you pass it any navigation element and flips it around to display in a Facebook style sidenav menu.</p>
 
-<p><img class="width-50 left" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png"></p>
+<p><img class="width-50 left" src="//s3.amazonaws.com/micahroberson/greeksquare-mobile-new-expanded.png" /></p>
 
-<p>Much, much better than before &ndash; both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation&rsquo;s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case).</p>
+<p>Much, much better than before - both aesthetically, and from a usability standpoint. The end product came out with very few html changes to existing navbar. I ran into a small hiccup when using the fixed implementation of Foundation’s navbar, but that was solved by add the following css to shrink it at the same rate as the jPanelMenu expands (ease-in-out at 300ms in my case). </p>
 
 <pre><code>[data-menu-position="open"] .container .fixed {
   left: 200px;
@@ -157,6 +124,7 @@
   @include transition(ease-in-out left .3s);
 }
 </code></pre>
+
 </div>
 
   <footer>
@@ -206,7 +174,70 @@
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/foundation-nav-w-jpanelmenu/';
+        var disqus_url = 'http://micahroberson.com/foundation-nav-w-jpanelmenu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

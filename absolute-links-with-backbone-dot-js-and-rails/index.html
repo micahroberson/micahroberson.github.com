@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,29 +75,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Absolute Links With Backbone.js and Rails</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -130,18 +98,16 @@
 
 
 <time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Absolute Links With Backbone.js and Rails</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p>Ideally user&rsquo;s won&rsquo;t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.</p>
-
-<p>To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails&#8217; perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I&rsquo;ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I&rsquo;m using Devise and also include some &ldquo;api&rdquo; scoped routes to illustrate how this particular app is setup.</p>
+<div class="entry-content"><p>Ideally user’s won’t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
+<!--more-->
+To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails’ perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I’ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I’m using Devise and also include some “api” scoped routes to illustrate how this particular app is setup.</p>
 
 <pre><code>devise_for :users
 scope :path =&gt; "api" do
@@ -173,7 +139,7 @@ end
 &lt;/script&gt;
 </code></pre>
 
-<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won&rsquo;t be available should the user arrive at the view from an absolute path. There&rsquo;s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don&rsquo;t if its not, but equip the view to react accordingly. For the former, there&rsquo;s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
+<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won’t be available should the user arrive at the view from an absolute path. There’s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don’t if its not, but equip the view to react accordingly. For the former, there’s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
 
 <pre><code>before: () -&gt;
   route = Backbone.history.fragment
@@ -184,7 +150,7 @@ end
       return false
 </code></pre>
 
-<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn&rsquo;t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
+<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn’t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
 
 <pre><code>render: () -&gt;
   if !@model
@@ -200,7 +166,7 @@ end
   @
 </code></pre>
 
-<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I&rsquo;ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
+<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I’ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
 </div>
 
   <footer>
@@ -250,7 +216,70 @@ end
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/';
+        var disqus_url = 'http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,29 +75,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Backbone Collections and Foreign Keys</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -130,16 +98,16 @@
 
 
 <time datetime="2013-05-02T08:16:00-07:00" pubdate data-updated="true">May 02</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Backbone Collections and Foreign Keys</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore &lsquo;filter&rsquo;, &lsquo;find&rsquo; and &lsquo;where&rsquo; methods to do the necessary lookups.</p>
+<div class="entry-content"><p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore ‘filter’, ‘find’ and ‘where’ methods to do the necessary lookups.</p>
+
+<!--more-->
 
 <pre><code>getByMappingIdAndCompanyId: function(mapping_id, company_id) {
   var mapping = mappingsCollection.get(mapping_id);
@@ -150,22 +118,22 @@
 }
 </code></pre>
 
-<p>The code above worked, but it was horribly inefficient. In order to find a DataSeries by a mapping_id and company_id, you had to first find the mapping and then look through all the DataSeries it was associated with to find the one with the right company_id. Just so we&rsquo;re all on the same page the associations looked like this:</p>
+<p>The code above worked, but it was horribly inefficient. In order to find a DataSeries by a mapping_id and company_id, you had to first find the mapping and then look through all the DataSeries it was associated with to find the one with the right company_id. Just so we’re all on the same page the associations looked like this:</p>
 
 <pre><code>DataSeries
   belongs_to :company
   has_many :mappings
-
+  
 Mapping
   belongs_to :company
   has_many :data_series
-
+  
 Company
   has_many :data_series
   has_many :mappings
 </code></pre>
 
-<p>For the next iteration, I modified the RABL file to include mapping_ids in the DataSeries models, and data_series_ids in the Mapping models. Client-side I hashed the models at creation via &lsquo;add&rsquo;, &lsquo;remove&rsquo;, &lsquo;reset&rsquo; events on the collection.</p>
+<p>For the next iteration, I modified the RABL file to include mapping_ids in the DataSeries models, and data_series_ids in the Mapping models. Client-side I hashed the models at creation via ‘add’, ‘remove’, ‘reset’ events on the collection. </p>
 
 <pre><code>_hashModel: function(model) {
   _.each(model.get('mapping_ids'), function(id) {
@@ -180,9 +148,9 @@ Company
 },
 </code></pre>
 
-<p>There was two main scenarios for accessing the models: by both mapping_id and company_id, and just by company_id. So I created a hash to handle each case, in order to keep the lookup time constant. Although this pseudo-map isn&rsquo;t nearly the same as a GLib hash table or STL Map, it&rsquo;s safe to assume that lookups are O(1). If you&rsquo;re going to be doing more lookups than hashing(adding keys is slow), its safe to use these techniques and worth the additional overhead to hold the &lsquo;map&rsquo; in memory.</p>
+<p>There was two main scenarios for accessing the models: by both mapping_id and company_id, and just by company_id. So I created a hash to handle each case, in order to keep the lookup time constant. Although this pseudo-map isn’t nearly the same as a GLib hash table or STL Map, it’s safe to assume that lookups are O(1). If you’re going to be doing more lookups than hashing(adding keys is slow), its safe to use these techniques and worth the additional overhead to hold the ‘map’ in memory. </p>
 
-<p>More recently, I&rsquo;ve come across a similar scenario that involved model lookup by slug rather than id. MongoDB provides some unsightly ID&rsquo;s so I employed the <a href="https://github.com/digitalplaywright/mongoid-slug">mongoid_slug</a> gem to handle slugging on the model&rsquo;s name attribute. Mongoid-slug provides an overridden &lsquo;find&rsquo; method on the model, but using Backbone with a Single Page App, meant I could either always force a model lookup to the backend, or check the client-side collection first(ideal). However, due to the large number of models potentially present client-side, I wanted to avoid a call to _.find for a matching name attribute. Here&rsquo;s the extended BaseCollection my collection extends <a href="https://gist.github.com/micahroberson/5493159">https://gist.github.com/micahroberson/5493159</a></p>
+<p>More recently, I’ve come across a similar scenario that involved model lookup by slug rather than id. MongoDB provides some unsightly ID’s so I employed the <a href="https://github.com/digitalplaywright/mongoid-slug">mongoid_slug</a> gem to handle slugging on the model’s name attribute. Mongoid-slug provides an overridden ‘find’ method on the model, but using Backbone with a Single Page App, meant I could either always force a model lookup to the backend, or check the client-side collection first(ideal). However, due to the large number of models potentially present client-side, I wanted to avoid a call to _.find for a matching name attribute. Here’s the extended BaseCollection my collection extends https://gist.github.com/micahroberson/5493159</p>
 
 <pre><code>define [
   'jquery', 'jqueryui', 'underscore', 'backbone'
@@ -190,10 +158,10 @@ Company
 ($, jqueryui, _, Backbone) -&gt;
 
   class BaseCollection extends Backbone.Collection
-
+ 
     initialize: () -&gt;
       @bindHashEvents()
-
+    
     # e.g.
     # hash_keys: [
     #   'subject',
@@ -201,32 +169,32 @@ Company
     #   'buildSlug' # where buildSlug: () -&gt; "#{@get('name').downcase().replace(/\s/g,'-')}"
     # ]
     hash_keys: []
-
+ 
     # key is the attribute originally set via hash_keys(e.g. 'name'), lookup_val is the search term (e.g. 'Frank')
     retrieveFromHash: (key, lookup_val) -&gt;
       if !key then return []
-
+  
       @["_#{key}_hash"][lookup_val]
-
+ 
     bindHashEvents: (hash_keys) -&gt;
       # Check for hash keys a la delegateEvents paradigm
       if !(hash_keys || (hash_keys = _.result(this, 'hash_keys'))) then return @
-
+ 
       _.each hash_keys, (key) =&gt;
         # initialize hash
         @["_#{key}_hash"] = {}
-
+    
         hashSingle = (model) =&gt;
           # first check if key is method defined on the model, otherwise assume its an attribute on model
           hk = if typeof model[key] == 'function' then model[key]() else model.get(key)
           @["_#{key}_hash"][hk] = model unless !hk
-
+ 
         @listenTo @, 'add', hashSingle
-
+ 
         @listenTo @, 'reset', (collection) =&gt;
           @["_#{key}_hash"] = {}
           _.each(@models, hashSingle, @)
-
+ 
         @listenTo @, 'remove', (model) =&gt;
           hk = if typeof model[key] == 'function' then model[key]() else model.get(key)
           delete @["_#{key}_hash"][hk]
@@ -280,7 +248,70 @@ Company
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/backbone-collections-and-foreign-keys/';
+        var disqus_url = 'http://micahroberson.com/backbone-collections-and-foreign-keys/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

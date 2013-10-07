@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,32 +75,20 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
-      <div class="blog-index">
+    <div id="content">
+      <div class="blog-index" itemscope itemtype="http://schema.org/Blog">
   
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload Files Directly to S3 W/ Backbone on Heroku</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -133,24 +101,33 @@
 
 
 <time datetime="2013-10-04T09:40:00-07:00" pubdate data-updated="true">Oct 04</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p><a href="http://aws.amazon.com/s3/">S3</a> has been the defacto standard for some time now when it comes to cloud storage, specifically for handling user uploads within an app. PaaS providers often have limitations on storage and/or file uploads - most notably Heroku, which doesn’t allow any file writes outside of the /tmp directory. Fortunately this is an easy enough problem to solve, with help from <a href="https://github.com/thoughtbot/paperclip">Paperclip</a> and <a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a>. Although utilizing one of these options may be easy and not all that different from how you would handle user uploads in a classic Rails app where you CAN write to the filesystem, they aren’t all that efficient on Heroku. A simple file upload becomes a data-intesive, long-drawn-out request in order to get the file from the browser(client) to the server(Heroku) and then to S3. Ideally these gems would process the file(s) in the background, and we could say the time to do so is negligible as a result. But when we decide we want to show progress to the user and also know when the upload is complete, things get a lot more complicated!</p>
+
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload Files Directly to S3 W/ Backbone on Heroku</a></h4>
+        
+          <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -163,24 +140,32 @@
 
 
 <time datetime="2013-09-25T10:35:00-07:00" pubdate data-updated="true">Sep 25</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop ‘cards’ in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a></h4>
+        
+          <a href="/saving-drag-and-drop-sort-position/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -193,24 +178,32 @@
 
 
 <time datetime="2013-08-17T11:13:00-07:00" pubdate data-updated="true">Aug 17</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>It’s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there’s a simple solution for site’s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we’re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a></h4>
+        
+          <a href="/preventing-duplicate-content/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/why-you-need-a-red-team/">Why You Need a Red Team</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -223,24 +216,32 @@
 
 
 <time datetime="2013-08-14T08:47:00-07:00" pubdate data-updated="true">Aug 14</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>A couple of weeks ago, an episode of HBO’s <em>The Newsroom</em> brought to light the concept and importance of having a ‘red team’. The red team, as described in the show, is a select group of team members who are intentionally left in the dark while a story is flushed out. Once enough ‘proof’ has been established by the reporters chasing the story, they would then run it by the red team to see if the fresh eyes can poke any holes in it. 
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/why-you-need-a-red-team/">Why You Need a Red Team</a></h4>
+        
+          <a href="/why-you-need-a-red-team/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links With Backbone.js and Rails</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -253,24 +254,32 @@
 
 
 <time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>Ideally user’s won’t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links With Backbone.js and Rails</a></h4>
+        
+          <a href="/absolute-links-with-backbone-dot-js-and-rails/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/rails-mongodb-and-embedded-docs/">MongoDB Schema Design</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -283,24 +292,32 @@
 
 
 <time datetime="2013-05-12T08:01:00-07:00" pubdate data-updated="true">May 12</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>I’m a big fan of MongoDB. I understand that it’s not great for every dataset out there, nor would I attempt to make it work with a highly relational dataset just because its shiny and new. What I do find rather appealing about MongoDB is the non-rigid document schema and the different mindset you have to have while developing. The non-rigid schema is important because it allows for very agile development and fast iterations. This doesn’t mean I condone adding and removing fields like crazy. I think I still make pretty calculated decisions when it comes to adding new fields to a collection just because I’ve been in the RDBMS world for so long - which is a good thing! 
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/rails-mongodb-and-embedded-docs/">MongoDB Schema Design</a></h4>
+        
+          <a href="/rails-mongodb-and-embedded-docs/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/foundation-nav-w-jpanelmenu/">Foundation Nav W/ jPanelMenu</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -313,24 +330,32 @@
 
 
 <time datetime="2013-05-04T10:21:00-07:00" pubdate data-updated="true">May 04</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p><a href="http://foundation.zurb.com/">Foundation</a> provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for <a href="http://www.greeksquare.com/">GreekSquare</a>, we weren’t satisfied with the default style. 
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/foundation-nav-w-jpanelmenu/">Foundation Nav W/ jPanelMenu</a></h4>
+        
+          <a href="/foundation-nav-w-jpanelmenu/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/backbone-collections-and-foreign-keys/">Backbone Collections and Foreign Keys</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -343,24 +368,33 @@
 
 
 <time datetime="2013-05-02T08:16:00-07:00" pubdate data-updated="true">May 02</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore ‘filter’, ‘find’ and ‘where’ methods to do the necessary lookups.</p>
+
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/backbone-collections-and-foreign-keys/">Backbone Collections and Foreign Keys</a></h4>
+        
+          <a href="/backbone-collections-and-foreign-keys/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
 
     </article>
   
-  
-    <article>
+    
+    <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
       
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title"><a href="/not-another-productivity-post/">Not Another Productivity Post</a></h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -373,11 +407,17 @@
 
 
 <time datetime="2012-12-01T13:21:00-08:00" pubdate data-updated="true">Dec 01</time>
+          
+        </p>
+      
+      <div class="entry-content" itemprop="articleBody">
+        <p>Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.
+
         
-      </p>
-    
-    
-      <h4 class="entry-title"><a href="/not-another-productivity-post/">Not Another Productivity Post</a></h4>
+        
+          <a href="/not-another-productivity-post/" class="more-link">Read on &rarr;</a>
+        
+      </div>
     
   </header>
 
@@ -386,10 +426,49 @@
   
   <div class="pagination">
     
-    <!-- <a href="/blog/archives">Blog Archives</a> &#8211;>
     
   </div>
 </div>
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
     </div>
   </div>

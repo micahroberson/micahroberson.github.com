@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,29 +75,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Upload Files Directly to S3 W/ Backbone on Heroku</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -130,185 +98,325 @@
 
 
 <time datetime="2013-10-04T09:40:00-07:00" pubdate data-updated="true">Oct 04</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Upload Files Directly to S3 W/ Backbone on Heroku</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://aws.amazon.com/s3/">S3</a> has been the defacto standard for some time now when it comes to cloud storage, specifically for handling user uploads. PaaS providers often have limitations on storage and/or file uploads &ndash; most notably Heroku, which doesn&rsquo;t allow any file writes outside of the /tmp directory. Fortunately this is an easy enough problem to solve, with help from <a href="https://github.com/thoughtbot/paperclip">Paperclip</a> and <a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a>. Although utilizing one of these options may be easy and not all that different from how you would handle user uploads in a classic Rails app where you CAN write to the filesystem, they aren&rsquo;t all that efficient on Heroku. A simple file upload becomes a data-intesive, long-drawn-out request in order to get the file from the browser(client) to the server(Heroku) and then to S3. Ideally these gems would process the file(s) in the background, and we could say the time to do so is negligible as a result. But when we decide we want to show progress to the user and also know when the upload is complete, things get a lot more complicated!</p>
+<div class="entry-content"><p><a href="http://aws.amazon.com/s3/">S3</a> has been the defacto standard for some time now when it comes to cloud storage, specifically for handling user uploads within an app. PaaS providers often have limitations on storage and/or file uploads - most notably Heroku, which doesn’t allow any file writes outside of the /tmp directory. Fortunately this is an easy enough problem to solve, with help from <a href="https://github.com/thoughtbot/paperclip">Paperclip</a> and <a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a>. Although utilizing one of these options may be easy and not all that different from how you would handle user uploads in a classic Rails app where you CAN write to the filesystem, they aren’t all that efficient on Heroku. A simple file upload becomes a data-intesive, long-drawn-out request in order to get the file from the browser(client) to the server(Heroku) and then to S3. Ideally these gems would process the file(s) in the background, and we could say the time to do so is negligible as a result. But when we decide we want to show progress to the user and also know when the upload is complete, things get a lot more complicated!</p>
 
-<p>This solution was originally built by Rok Krulec at <a href="http://dubjoy.com">Dubjoy</a>, and can be found here: <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your</a>, but I&rsquo;ve forked the code and made some tweaks to handle multiple files, progress, and cancellations.</p>
+<!--more-->
 
-<p>In order to implement the entirety of this setup, you&rsquo;ll need a CORS enabled bucket. Follow <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">Step 1</a> for instructions. You&rsquo;ll also need to setup server-side request signing, which Rok Krulec shows how to do in <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">Step 3</a>.</p>
+<p>This solution was originally built by Rok Krulec at <a href="http://dubjoy.com">Dubjoy</a>, and can be found here: <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your</a>, but I’ve forked the code and made some tweaks to handle multiple files, progress, and cancellations.</p>
 
-<p>For the client-side implementation, which is Step 2 from the blog post linked above, we&rsquo;ll do things a little differently.</p>
+<p>In order to implement the entirety of this setup, you’ll need a CORS enabled bucket. Follow <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">Step 1</a> for instructions. You’ll also need to setup server-side request signing, which Rok Krulec shows how to do in <a href="http://codeartists.com/post/36892733572/how-to-directly-upload-files-to-amazon-s3-from-your">Step 3</a>. </p>
 
-<p>You can find my forked repo with the necessary S3Upload lib here: <a href="https://github.com/micahroberson/s3upload-coffee-javascript">https://github.com/micahroberson/s3upload-coffee-javascript</a></p>
+<p>For the client-side implementation, which is Step 2 from the blog post linked above, we’ll do things a little differently.</p>
 
-<p>To a Backbone view I&rsquo;ve added the following:</p>
+<p>You can find my forked repo with the necessary S3Upload lib here: <a href="https://github.com/micahroberson/s3upload-coffee-javascript">https://github.com/micahroberson/s3upload-coffee-javascript</a> </p>
 
-<pre><code># Listener to detect when the user has selected a file.
-# We could also opt for a click event on an 'Upload Files' button instead
-events:
-  'change input#Files': 'onChangeFiles'
+<p>To a Backbone view I’ve added the following:</p>
 
-...
-
-# Listen for newly added models and render a view for each
-initialize: () -&gt;
-  @listenTo @attachmentsCollection, 'add', @onAddAttachment
-...
-
-# Instantiate and render new views for models added to the collection
-# This is the view that will be listening to the 'upload:progress' event, and can also allow the user to cancel the upload
-onAddAttachment: (model, response) -&gt;
-  attachmentView = new Doozie.Views.Attachments.Show(model: model)
-  @$('.card-attachments').append(attachmentView.render().el)
-  @attachmentViews[model.cid] = attachmentView
-
-...
-
-# Callback bound above which triggers the actual upload via the S3Upload lib
-onChangeFiles: (e) -&gt;
-  return if $(e.target).val() == ''
-
-  @uploadToS3
-    files_dropped: false,
-    file_dom_selector: '#Files'
-
-...
-
-# Instantiation of a new S3Upload with custom callbacks
-uploadToS3: (options) -&gt;
-  # We create an object to store the newly created models for reference in progress and abort callbacks
-  newAttachments = {}
-  s3upload = new S3Upload
-    # files_dropped and file_list are only necessary for handling drag and drop uploads, which we'll address later
-    files_dropped: options.files_dropped,
-    file_list: options.file_list,
-    file_dom_selector: options.file_dom_selector,
-    s3_sign_put_url: '/api/attachments/signput',
-
-    onProgress: (xhr, file, percent, message) =&gt;
-      # Create a new Attachment model for the file which has just started uploading, otherwise trigger an 'upload:progress' event on the model which a view can listen for
-      if percent == 0
-        attachment = new Doozie.Models.Attachment
-          name : file.name, 
-          s3_url: '', 
-          card_id : @model.id,
-          project_id: @model.get('project_id'),
-          file_type : file.type, 
-          size : parseFloat(file.size)
-        # Key on file.size for uniqueness
-        newAttachments[file.size] = attachment
-        # Add the model to the Backbone collection, which will trigger an 'add' event
-        @attachmentsCollection.add(attachment)
-      else
-        attachment = newAttachments[file.size]
-        if attachment
-          attachment.trigger('upload:progress', { percent: percent, message: message, xhr: xhr })
-
-    onAbort: (file, message) =&gt;
-      attachment = newAttachments[file.size]
-      attachment.destroy()
-      delete newAttachments[file.size]
-      # Must replace old input type=file. for some reason, it doesn't clear the value
-      @$('input#Files').replaceWith("&lt;input id='files' type='file' name='files[]' multiple /&gt;")
-
-    onFinishS3Put: (public_url, file) =&gt;
-      # Grab the attachment model and update it with the final url
-      # Also note that the model has not yet been saved, so the backend would be unaware of a cancelled upload
-      attachment = newAttachments[file.size]
-      attachment.save({ s3_url: public_url })
-
-    onError: (file, status) =&gt;
-      console.log('Upload error: ', status)
-      attachment = newAttachments[file.size]
-      attachment.destroy()
-      delete newAttachments[file.size]
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+</pre></td><td class="code"><pre><code class="coffeescript"><span class="line">  <span class="c1"># Listener to detect when the user has selected a file.</span>
+</span><span class="line">  <span class="c1"># We could also opt for a click event on an &#39;Upload Files&#39; button instead</span>
+</span><span class="line">  <span class="nv">events:</span>
+</span><span class="line">    <span class="s">&#39;change input#Files&#39;</span><span class="o">:</span> <span class="s">&#39;onChangeFiles&#39;</span>
+</span><span class="line">
+</span><span class="line">  <span class="p">...</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># Listen for newly added models and render a view for each</span>
+</span><span class="line">  <span class="nv">initialize: </span><span class="p">()</span> <span class="nf">-&gt;</span>
+</span><span class="line">    <span class="nx">@listenTo</span> <span class="nx">@attachmentsCollection</span><span class="p">,</span> <span class="s">&#39;add&#39;</span><span class="p">,</span> <span class="nx">@onAddAttachment</span>
+</span><span class="line">  <span class="p">...</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># Instantiate and render new views for models added to the collection</span>
+</span><span class="line">  <span class="c1"># This is the view that will be listening to the &#39;upload:progress&#39; event, and can also allow the user to cancel the upload</span>
+</span><span class="line">  <span class="nv">onAddAttachment: </span><span class="nf">(model, response) -&gt;</span>
+</span><span class="line">    <span class="nv">attachmentView = </span><span class="k">new</span> <span class="nx">Doozie</span><span class="p">.</span><span class="nx">Views</span><span class="p">.</span><span class="nx">Attachments</span><span class="p">.</span><span class="nx">Show</span><span class="p">(</span><span class="nv">model: </span><span class="nx">model</span><span class="p">)</span>
+</span><span class="line">    <span class="nx">@$</span><span class="p">(</span><span class="s">&#39;.card-attachments&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">attachmentView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span><span class="p">)</span>
+</span><span class="line">    <span class="nx">@attachmentViews</span><span class="p">[</span><span class="nx">model</span><span class="p">.</span><span class="nx">cid</span><span class="p">]</span> <span class="o">=</span> <span class="nx">attachmentView</span>
+</span><span class="line">
+</span><span class="line">  <span class="p">...</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># Callback bound above which triggers the actual upload via the S3Upload lib</span>
+</span><span class="line">  <span class="nv">onChangeFiles: </span><span class="nf">(e) -&gt;</span>
+</span><span class="line">    <span class="k">return</span> <span class="k">if</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line">    <span class="nx">@uploadToS3</span>
+</span><span class="line">      <span class="nv">files_dropped: </span><span class="kc">false</span><span class="p">,</span>
+</span><span class="line">      <span class="nv">file_dom_selector: </span><span class="s">&#39;#Files&#39;</span>
+</span><span class="line">
+</span><span class="line">  <span class="p">...</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># Instantiation of a new S3Upload with custom callbacks</span>
+</span><span class="line">  <span class="nv">uploadToS3: </span><span class="nf">(options) -&gt;</span>
+</span><span class="line">    <span class="c1"># We create an object to store the newly created models for reference in progress and abort callbacks</span>
+</span><span class="line">    <span class="nv">newAttachments = </span><span class="p">{}</span>
+</span><span class="line">    <span class="nv">s3upload = </span><span class="k">new</span> <span class="nx">S3Upload</span>
+</span><span class="line">      <span class="c1"># files_dropped and file_list are only necessary for handling drag and drop uploads, which we&#39;ll address later</span>
+</span><span class="line">      <span class="nv">files_dropped: </span><span class="nx">options</span><span class="p">.</span><span class="nx">files_dropped</span><span class="p">,</span>
+</span><span class="line">      <span class="nv">file_list: </span><span class="nx">options</span><span class="p">.</span><span class="nx">file_list</span><span class="p">,</span>
+</span><span class="line">      <span class="nv">file_dom_selector: </span><span class="nx">options</span><span class="p">.</span><span class="nx">file_dom_selector</span><span class="p">,</span>
+</span><span class="line">      <span class="nv">s3_sign_put_url: </span><span class="s">&#39;/api/attachments/signput&#39;</span><span class="p">,</span>
+</span><span class="line">
+</span><span class="line">      <span class="nv">onProgress: </span><span class="nf">(xhr, file, percent, message) =&gt;</span>
+</span><span class="line">        <span class="c1"># Create a new Attachment model for the file which has just started uploading, otherwise trigger an &#39;upload:progress&#39; event on the model which a view can listen for</span>
+</span><span class="line">        <span class="k">if</span> <span class="nx">percent</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class="line">          <span class="nv">attachment = </span><span class="k">new</span> <span class="nx">Doozie</span><span class="p">.</span><span class="nx">Models</span><span class="p">.</span><span class="nx">Attachment</span>
+</span><span class="line">            <span class="nv">name : </span><span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+</span><span class="line">            <span class="nv">s3_url: </span><span class="s">&#39;&#39;</span><span class="p">,</span>
+</span><span class="line">            <span class="nv">card_id : </span><span class="nx">@model</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+</span><span class="line">            <span class="nv">project_id: </span><span class="nx">@model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s">&#39;project_id&#39;</span><span class="p">),</span>
+</span><span class="line">            <span class="nv">file_type : </span><span class="nx">file</span><span class="p">.</span><span class="nx">type</span><span class="p">,</span>
+</span><span class="line">            <span class="nv">size : </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">)</span>
+</span><span class="line">          <span class="c1"># Key on file.size for uniqueness</span>
+</span><span class="line">          <span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span> <span class="o">=</span> <span class="nx">attachment</span>
+</span><span class="line">          <span class="c1"># Add the model to the Backbone collection, which will trigger an &#39;add&#39; event</span>
+</span><span class="line">          <span class="nx">@attachmentsCollection</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">attachment</span><span class="p">)</span>
+</span><span class="line">        <span class="k">else</span>
+</span><span class="line">          <span class="nv">attachment = </span><span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span><span class="line">          <span class="k">if</span> <span class="nx">attachment</span>
+</span><span class="line">            <span class="nx">attachment</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s">&#39;upload:progress&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nv">percent: </span><span class="nx">percent</span><span class="p">,</span> <span class="nv">message: </span><span class="nx">message</span><span class="p">,</span> <span class="nv">xhr: </span><span class="nx">xhr</span> <span class="p">})</span>
+</span><span class="line">
+</span><span class="line">      <span class="nv">onAbort: </span><span class="nf">(file, message) =&gt;</span>
+</span><span class="line">        <span class="nv">attachment = </span><span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span><span class="line">        <span class="nx">attachment</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+</span><span class="line">        <span class="k">delete</span> <span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span><span class="line">        <span class="c1"># Must replace old input type=file. for some reason, it doesn&#39;t clear the value</span>
+</span><span class="line">        <span class="nx">@$</span><span class="p">(</span><span class="s">&#39;input#Files&#39;</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="s">&quot;&lt;input id=&#39;files&#39; type=&#39;file&#39; name=&#39;files[]&#39; multiple /&gt;&quot;</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">      <span class="nv">onFinishS3Put: </span><span class="nf">(public_url, file) =&gt;</span>
+</span><span class="line">        <span class="c1"># Grab the attachment model and update it with the final url</span>
+</span><span class="line">        <span class="c1"># Also note that the model has not yet been saved, so the backend would be unaware of a cancelled upload</span>
+</span><span class="line">        <span class="nv">attachment = </span><span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span><span class="line">        <span class="nx">attachment</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span> <span class="nv">s3_url: </span><span class="nx">public_url</span> <span class="p">})</span>
+</span><span class="line">
+</span><span class="line">      <span class="nv">onError: </span><span class="nf">(file, status) =&gt;</span>
+</span><span class="line">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s">&#39;Upload error: &#39;</span><span class="p">,</span> <span class="nx">status</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">attachment = </span><span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span><span class="line">        <span class="nx">attachment</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+</span><span class="line">        <span class="k">delete</span> <span class="nx">newAttachments</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">size</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>The attachment view(s) instantiated above looks like this:</p>
 
-<pre><code>...
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class="coffeescript"><span class="line">  <span class="p">...</span>
+</span><span class="line">
+</span><span class="line">  <span class="nv">events: </span>
+</span><span class="line">    <span class="s">&#39;click .cancel&#39;</span> <span class="o">:</span> <span class="s">&#39;onCancelUpload&#39;</span>
+</span><span class="line">
+</span><span class="line">  <span class="nv">initialize: </span><span class="p">()</span> <span class="nf">-&gt;</span>
+</span><span class="line">    <span class="nx">@listenTo</span><span class="p">(</span><span class="nx">@model</span><span class="p">,</span> <span class="s">&#39;upload:progress&#39;</span><span class="p">,</span> <span class="nx">@onUploadProgress</span><span class="p">)</span>
+</span><span class="line">    <span class="nx">@listenTo</span><span class="p">(</span><span class="nx">@model</span><span class="p">,</span> <span class="s">&#39;destroy&#39;</span><span class="p">,</span> <span class="nx">@destroy</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">  <span class="nv">onUploadProgress: </span><span class="nf">(data) -&gt;</span>
+</span><span class="line">    <span class="nx">@$</span><span class="p">(</span><span class="s">&#39;.progress .meter&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s">&#39;width&#39;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">#{</span><span class="nx">data</span><span class="p">.</span><span class="nx">percent</span><span class="si">}</span><span class="s">%&quot;</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">if</span> <span class="nx">data</span><span class="p">.</span><span class="nx">percent</span> <span class="o">==</span> <span class="mi">100</span>
+</span><span class="line">      <span class="c1"># If the upload is complete, remove the progress bar and cancel button</span>
+</span><span class="line">      <span class="nx">@$</span><span class="p">(</span><span class="s">&#39;.progress, .cancel&#39;</span><span class="p">).</span><span class="nx">remove</span><span class="p">()</span>
+</span><span class="line">      <span class="vi">@_xhr = </span><span class="kc">null</span>
+</span><span class="line">    <span class="k">else</span> <span class="k">if</span> <span class="o">!</span><span class="nx">@_xhr</span>
+</span><span class="line">      <span class="c1"># Else if @_xhr is not yet defined, save a reference to it</span>
+</span><span class="line">      <span class="vi">@_xhr = </span><span class="nx">data</span><span class="p">.</span><span class="nx">xhr</span>
+</span><span class="line">
+</span><span class="line">  <span class="nv">onCancelUpload: </span><span class="nf">(e) -&gt;</span>
+</span><span class="line">    <span class="c1"># Leverage the saved xhr reference to abort() the upload</span>
+</span><span class="line">    <span class="k">if</span> <span class="nx">@_xhr</span>
+</span><span class="line">      <span class="nx">@_xhr</span><span class="p">.</span><span class="nx">abort</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-events: 
-  'click .cancel' : 'onCancelUpload'
+<p>On the Rails side of things, we’re really only storing the S3 url and a few other details about the file that we may want to display. The most important piece here is the after_destroy callback to actually delete the S3 object when the model is destroyed. Note that this uses the ‘aws-sdk’ gem. </p>
 
-initialize: () -&gt;
-  @listenTo(@model, 'upload:progress', @onUploadProgress)
-  @listenTo(@model, 'destroy', @destroy)
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">class</span> <span class="nc">Attachment</span>
+</span><span class="line">    <span class="kp">include</span> <span class="ss">Mongoid</span><span class="p">:</span><span class="ss">:Document</span>
+</span><span class="line">    <span class="kp">include</span> <span class="ss">Mongoid</span><span class="p">:</span><span class="ss">:Timestamps</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">field</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="nb">String</span>
+</span><span class="line">    <span class="n">field</span> <span class="ss">:s3_url</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="nb">String</span>
+</span><span class="line">    <span class="n">field</span> <span class="ss">:file_type</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="nb">String</span>
+</span><span class="line">    <span class="n">field</span> <span class="ss">:size</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="nb">Float</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">belongs_to</span> <span class="ss">:creator</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="n">inverse_of</span><span class="p">:</span> <span class="kp">nil</span>
+</span><span class="line">    <span class="n">belongs_to</span> <span class="ss">:card</span><span class="p">,</span> <span class="n">inverse_of</span><span class="p">:</span> <span class="ss">:blobs</span><span class="p">,</span> <span class="ss">touch</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">after_destroy</span> <span class="ss">:delete_from_s3</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">def</span> <span class="nf">delete_from_s3</span>
+</span><span class="line">      <span class="n">s3</span> <span class="o">=</span> <span class="ss">AWS</span><span class="p">:</span><span class="ss">:S3</span><span class="o">.</span><span class="n">new</span> <span class="n">access_key_id</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;S3_ACCESS_KEY&#39;</span><span class="o">]</span><span class="p">,</span> <span class="n">secret_access_key</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;S3_SECRET_KEY&#39;</span><span class="o">]</span>
+</span><span class="line">      <span class="n">key</span> <span class="o">=</span> <span class="n">s3_url</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;https://s3.amazonaws.com/</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;S3_BUCKET_NAME&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="n">s3</span><span class="o">.</span><span class="n">buckets</span><span class="o">[</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;S3_BUCKET_NAME&#39;</span><span class="o">]].</span><span class="n">objects</span><span class="o">[</span><span class="n">key</span><span class="o">].</span><span class="n">delete</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-onUploadProgress: (data) -&gt;
-  @$('.progress .meter').css('width', "#{data.percent}%")
+<p>And that’s all there is to it! We’ve built a simple and efficient solution that allows users to upload multiple files at the same time, see indiviual progress bars for each file and also cancel each file independently. To take this a little further we can allow users to drag files onto the view and trigger an upload, and also create a proxy route for downloading files, which hides the actual S3 url. </p>
 
-  if data.percent == 100
-    # If the upload is complete, remove the progress bar and cancel button
-    @$('.progress, .cancel').remove()
-    @_xhr = null
-  else if !@_xhr
-    # Else if @_xhr is not yet defined, save a reference to it
-    @_xhr = data.xhr
+<p>To upload files on ‘drop’, just add the following event listener and handler, and it will trigger the same sequence of events as with the file type input.</p>
 
-onCancelUpload: (e) -&gt;
-  # Leverage the saved xhr reference to abort() the upload
-  if @_xhr
-    @_xhr.abort()
-</code></pre>
-
-<p>On the Rails side of things, we&rsquo;re really only storing the S3 url and a few other details about the file that we may want to display. The most important piece here is the after_destroy callback to actually delete the S3 object when the model is destroyed. Note that this uses the &lsquo;aws-sdk&rsquo; gem.</p>
-
-<pre><code>class Attachment
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  field :name, type: String
-  field :s3_url, type: String
-  field :file_type, type: String
-  field :size, type: Float
-
-  belongs_to :creator, class_name: 'User', inverse_of: nil
-  belongs_to :card, inverse_of: :blobs, touch: true
-
-  after_destroy :delete_from_s3
-
-  def delete_from_s3
-    s3 = AWS::S3.new access_key_id: ENV['S3_ACCESS_KEY'], secret_access_key: ENV['S3_SECRET_KEY']
-    key = s3_url.sub("https://s3.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/", "")
-    s3.buckets[ENV['S3_BUCKET_NAME']].objects[key].delete
-  end
-
-end
-</code></pre>
-
-<p>And that&rsquo;s all there is to it! We&rsquo;ve built a simple and efficient solution that allows users to upload multiple files at the same time, see indiviual progress bars for each file and also cancel each file independently. To take this a little further we can allow users to drag files onto the view and trigger an upload, and also create a proxy route for downloading files, which hides the actual S3 url.</p>
-
-<p>To upload files on &lsquo;drop&rsquo;, just add the following event listener and handler, and it will trigger the same sequence of events as with the file type input.</p>
-
-<pre><code>events: 
-  'drop'  :  'onDrop'
-
-onDrop: (e) -&gt;
-  return if e.dataTransfer == null
-
-  @uploadToS3({
-    files_dropped: true,
-    file_list: e.dataTransfer.files
-  });
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="coffeescript"><span class="line">  <span class="nv">events: </span>
+</span><span class="line">    <span class="s">&#39;drop&#39;</span>  <span class="o">:</span>  <span class="s">&#39;onDrop&#39;</span>
+</span><span class="line">
+</span><span class="line">  <span class="nv">onDrop: </span><span class="nf">(e) -&gt;</span>
+</span><span class="line">    <span class="k">return</span> <span class="k">if</span> <span class="nx">e</span><span class="p">.</span><span class="nx">dataTransfer</span> <span class="o">==</span> <span class="kc">null</span>
+</span><span class="line">
+</span><span class="line">    <span class="nx">@uploadToS3</span><span class="p">({</span>
+</span><span class="line">      <span class="nv">files_dropped: </span><span class="kc">true</span><span class="p">,</span>
+</span><span class="line">      <span class="nv">file_list: </span><span class="nx">e</span><span class="p">.</span><span class="nx">dataTransfer</span><span class="p">.</span><span class="nx">files</span>
+</span><span class="line">    <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>For the download link, we just use a controller action mapped to /attachments/download/:id</p>
 
-<pre><code>def download
-  @attachment = Attachment.where( company_id: current_user.company_id, id: params[:id] ).first
-  data = open URI.parse(@attachment.s3_url)
-  send_data data.read, filename: "#{@attachment.name}", type: "#{@attachment.file_type}", disposition: 'inline', stream: 'true', buffer_size: '4096'
-end
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">    <span class="k">def</span> <span class="nf">download</span>
+</span><span class="line">      <span class="vi">@attachment</span> <span class="o">=</span> <span class="no">Attachment</span><span class="o">.</span><span class="n">where</span><span class="p">(</span> <span class="n">company_id</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">company_id</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span> <span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span><span class="line">      <span class="n">data</span> <span class="o">=</span> <span class="nb">open</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="vi">@attachment</span><span class="o">.</span><span class="n">s3_url</span><span class="p">)</span>
+</span><span class="line">      <span class="n">send_data</span> <span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="ss">filename</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attachment</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@attachment</span><span class="o">.</span><span class="n">file_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ss">disposition</span><span class="p">:</span> <span class="s1">&#39;inline&#39;</span><span class="p">,</span> <span class="ss">stream</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">:</span> <span class="s1">&#39;4096&#39;</span>
+</span><span class="line">    <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 </div>
 
   <footer>
@@ -356,7 +464,70 @@ end
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/upload-files-directly-to-s3-w-backbone-on-heroku/';
+        var disqus_url = 'http://micahroberson.com/upload-files-directly-to-s3-w-backbone-on-heroku/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

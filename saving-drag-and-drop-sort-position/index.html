@@ -55,27 +55,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -97,29 +77,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Saving Drag and Drop Sort Position</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -132,122 +100,180 @@
 
 
 <time datetime="2013-09-25T10:35:00-07:00" pubdate data-updated="true">Sep 25</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Saving Drag and Drop Sort Position</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop &lsquo;cards&rsquo; in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application.</p>
-
-<p><img class="width-100" src="/images/dragndrop.png"></p>
+<div class="entry-content"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop ‘cards’ in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
+<!--more-->
+<img class="width-100" src="/images/dragndrop.png" /></p>
 
 <p>I considered the following factors/constraints when determining the best implementation:</p>
 
 <ul>
-<li>Update new position(s) with a single ajax call</li>
-<li>Allow for consecutive client-side moves without having to redraw the entire list after each move</li>
-<li>Minimize backend work to save a move</li>
-<li>Minimize backend work to retrieve cards from database and sort into proper order</li>
-<li>Allow for real-time client-side updates from other users (ie. card position changes via websockets)</li>
-<li>There should be no limit to the number of times a user can rearrage a set of cards</li>
-<li>The solution should allow for a sufficiently high number of cards to be sorted and retrieved in decent amount of time</li>
+  <li>Update new position(s) with a single ajax call</li>
+  <li>Allow for consecutive client-side moves without having to redraw the entire list after each move</li>
+  <li>Minimize backend work to save a move</li>
+  <li>Minimize backend work to retrieve cards from database and sort into proper order</li>
+  <li>Allow for real-time client-side updates from other users (ie. card position changes via websockets)</li>
+  <li>There should be no limit to the number of times a user can rearrage a set of cards</li>
+  <li>The solution should allow for a sufficiently high number of cards to be sorted and retrieved in decent amount of time</li>
 </ul>
 
+<p>The simplest solution would be to simply store a ‘position’ on each card as an integer and sort by that column when retrieving from the database. However, this solution would require that dragging Card A from position 8 to position 1 would need to update all cards with position &gt; 1. Although the query is trivial, these cards would need to be updated client-side as well in order to maintain a clean state. Clean state is important for allowing consecutive moves as well as updates from websockets. </p>
 
-<p>The simplest solution would be to simply store a &lsquo;position&rsquo; on each card as an integer and sort by that column when retrieving from the database. However, this solution would require that dragging Card A from position 8 to position 1 would need to update all cards with position > 1. Although the query is trivial, these cards would need to be updated client-side as well in order to maintain a clean state. Clean state is important for allowing consecutive moves as well as updates from websockets.</p>
+<p>Another solution is to store the sort order outside of the actual cards - ie. an array of card ids on the project model. I would prefer the order to be saved on the actual card (for API purposes, it makes more sense to be able to sort the cards without having the actual project model as well), this method also requires that we redraw every card on a change. I suppose we could diff the arrays client-side and determine which cards need to be moved, but I haven’t actually thought it through enough to be sure that would work efficiently. </p>
 
-<p>Another solution is to store the sort order outside of the actual cards &ndash; ie. an array of card ids on the project model. I would prefer the order to be saved on the actual card (for API purposes, it makes more sense to be able to sort the cards without having the actual project model as well), this method also requires that we redraw every card on a change. I suppose we could diff the arrays client-side and determine which cards need to be moved, but I haven&rsquo;t actually thought it through enough to be sure that would work efficiently.</p>
+<p>The runner-up solution was to store the position on a card but as a double rather than an integer. Keeping this value a double means we can simply set the new position to half of the difference between the two cards. Moving a card from position 8 to position 1(assuming all cards have integer positions at this point), we would set the new position to (1 - 0) / 2 = 0.5. This would require a single save on the card that changed position, and we could still sort on the position column when retrieving the data. This also allows for handling position changes from other users via websockets. The one limitation is the number of rearrangements a user can make. Eventually we’re going to max out the decimal places on the double. We could re-sort all of the elements with a background job when the cards approach this limit, but that doesn’t seem like the right way to solve the problem. </p>
 
-<p>The runner-up solution was to store the position on a card but as a double rather than an integer. Keeping this value a double means we can simply set the new position to half of the difference between the two cards. Moving a card from position 8 to position 1(assuming all cards have integer positions at this point), we would set the new position to (1 &ndash; 0) / 2 = 0.5. This would require a single save on the card that changed position, and we could still sort on the position column when retrieving the data. This also allows for handling position changes from other users via websockets. The one limitation is the number of rearrangements a user can make. Eventually we&rsquo;re going to max out the decimal places on the double. We could re-sort all of the elements with a background job when the cards approach this limit, but that doesn&rsquo;t seem like the right way to solve the problem.</p>
-
-<p>The solution we ended up going with is to simulate a linked-list in order to maintain relevent position. Each card stores the id of the card it follows. This makes client-side updates extremely easy: if a card model changes, we simply find the id it follows and append it right after. As far as the client knows, only a single ajax call is required. Server-side, there&rsquo;s actually two more operations that need to take place: updating the new follower of the card that moved, and updating the previous follower of the card that moved. When retrieving the data server-side, we can put all of the cards in order with a simple loop. Although the operation isn&rsquo;t linear, the complexity is roughly O(n log n) &ndash; on par with mergesort. Some quick benchmarking showed the following results:</p>
+<p>The solution we ended up going with is to simulate a linked-list in order to maintain relevent position. Each card stores the id of the card it follows. This makes client-side updates extremely easy: if a card model changes, we simply find the id it follows and append it right after. As far as the client knows, only a single ajax call is required. Server-side, there’s actually two more operations that need to take place: updating the new follower of the card that moved, and updating the previous follower of the card that moved. When retrieving the data server-side, we can put all of the cards in order with a simple loop. Although the operation isn’t linear, the complexity is roughly O(n log n) - on par with mergesort. Some quick benchmarking showed the following results:</p>
 
 <ul>
-<li>0.001941s for 10 cards</li>
-<li>0.205871s for 500 cards</li>
-<li>0.812723s for 1000 cards</li>
+  <li>0.001941s for 10 cards</li>
+  <li>0.205871s for 500 cards</li>
+  <li>0.812723s for 1000 cards</li>
 </ul>
 
+<p>Although it starts to climb quickly upwards of 1000 cards, its highly unlikely that a user would ever add that many cards and still expect good performance, so we’re content with the results. </p>
 
-<p>Although it starts to climb quickly upwards of 1000 cards, its highly unlikely that a user would ever add that many cards and still expect good performance, so we&rsquo;re content with the results.</p>
+<p>Implementing the solution client-side with <a href="http://www.backbonejs.org">Backbone.js</a> and <a href="http://www.jqueryui.com">jQuery UI</a> is done with the following method to be called after a card is ‘dropped’:</p>
 
-<p>Implementing the solution client-side with <a href="http://www.backbonejs.org">Backbone.js</a> and <a href="http://www.jqueryui.com">jQuery UI</a> is done with the following method to be called after a card is &lsquo;dropped&rsquo;:</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="coffeescript"><span class="line">  <span class="nv">updatePositions: </span><span class="nf">(e, ui) =&gt;</span>
+</span><span class="line">    <span class="nv">$ui = </span><span class="nx">ui</span><span class="p">.</span><span class="nx">item</span>
+</span><span class="line">    <span class="nv">id = </span><span class="nx">$ui</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s">&#39;model-id&#39;</span><span class="p">)</span>
+</span><span class="line">    <span class="nv">$after = </span><span class="nx">$ui</span><span class="p">.</span><span class="nx">prev</span><span class="p">()</span>
+</span><span class="line">
+</span><span class="line">    <span class="nv">afterCardId = </span><span class="k">if</span> <span class="nx">$after</span> <span class="k">then</span> <span class="nx">$after</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s">&#39;model-id&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">null</span>
+</span><span class="line">
+</span><span class="line">    <span class="nv">card = </span><span class="nx">@cardsCollection</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span>
+</span><span class="line">    <span class="nx">card</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span>
+</span><span class="line">      <span class="nv">after_card_id: </span><span class="nx">afterCardId</span>
+</span><span class="line">      <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<pre><code>updatePositions: (e, ui) =&gt;
-  $ui = ui.item
-  id = $ui.data('model-id')
-  $after = $ui.prev()
+<p>Server-side we’ll add a method to be called after updating the after_card_id(ID of the preceding card, nil if first) of the card that moved:</p>
 
-  afterCardId = if $after then $after.data('model-id') else null
-
-  card = @cardsCollection.get(id)
-  card.save(
-    after_card_id: afterCardId
-    )
-</code></pre>
-
-<p>Server-side we&rsquo;ll add a method to be called after updating the after_card_id(ID of the preceding card, nil if first) of the card that moved:</p>
-
-<pre><code>def update_after_card(stage_id_was, after_card_id_was)
-  # Update card that previously came after
-  Card.where(after_card_id: id).update_all(
-    after_card_id: after_card_id_was
-    )
-
-  # Update card that now comes after
-  Card.where(:id.ne =&gt; id).where(after_card_id: after_card_id).update_all(
-    after_card_id: id
-    )
-end
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">def</span> <span class="nf">update_after_card</span><span class="p">(</span><span class="n">stage_id_was</span><span class="p">,</span> <span class="n">after_card_id_was</span><span class="p">)</span>
+</span><span class="line">    <span class="c1"># Update card that previously came after</span>
+</span><span class="line">    <span class="no">Card</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">after_card_id</span><span class="p">:</span> <span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">update_all</span><span class="p">(</span>
+</span><span class="line">      <span class="n">after_card_id</span><span class="p">:</span> <span class="n">after_card_id_was</span>
+</span><span class="line">      <span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1"># Update card that now comes after</span>
+</span><span class="line">    <span class="no">Card</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:id</span><span class="o">.</span><span class="n">ne</span> <span class="o">=&gt;</span> <span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">after_card_id</span><span class="p">:</span> <span class="n">after_card_id</span><span class="p">)</span><span class="o">.</span><span class="n">update_all</span><span class="p">(</span>
+</span><span class="line">      <span class="n">after_card_id</span><span class="p">:</span> <span class="nb">id</span>
+</span><span class="line">      <span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Also server-side we can retrieve the data from a MongoDB backed Rails app as follows (this was a very quick implementation and there are definitely some improvements that could be made to improve the efficiency):</p>
 
-<pre><code>has_many :cards
-...
-def ordered_cards
-  cardsArray = []
-  initialCardsArray = cards.to_a
-
-  cardIdsArray = []
-  indexHash = {}
-  i = 0
-  x = 0
-
-  if initialCardsArray.size &lt;= 1
-    return initialCardsArray
-  end
-
-  while initialCardsArray.size &gt; 0 do
-    card = initialCardsArray[i]
-    index = cardIdsArray.index(card.after_card_id)
-
-    if card.after_card_id.nil?
-      cardsArray.insert(0, card)
-      cardIdsArray.insert(0, card.id.to_s)
-      initialCardsArray.delete(card)
-    elsif !index.nil?
-      pos = index + 1
-      cardsArray.insert(pos, card)
-      cardIdsArray.insert(pos, card.id.to_s)
-      initialCardsArray.delete(card)
-    else
-      i += 1
-    end
-
-    if i == initialCardsArray.size
-      i = 0
-    end
-
-  end
-
-  cardsArray
-end
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="n">has_many</span> <span class="ss">:cards</span>
+</span><span class="line">  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">ordered_cards</span>
+</span><span class="line">    <span class="n">cardsArray</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class="line">    <span class="n">initialCardsArray</span> <span class="o">=</span> <span class="n">cards</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cardIdsArray</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class="line">    <span class="n">indexHash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="line">    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">if</span> <span class="n">initialCardsArray</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+</span><span class="line">      <span class="k">return</span> <span class="n">initialCardsArray</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">while</span> <span class="n">initialCardsArray</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">do</span>
+</span><span class="line">      <span class="n">card</span> <span class="o">=</span> <span class="n">initialCardsArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+</span><span class="line">      <span class="n">index</span> <span class="o">=</span> <span class="n">cardIdsArray</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">after_card_id</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">      <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">after_card_id</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class="line">        <span class="n">cardsArray</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">card</span><span class="p">)</span>
+</span><span class="line">        <span class="n">cardIdsArray</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">card</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+</span><span class="line">        <span class="n">initialCardsArray</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+</span><span class="line">      <span class="k">elsif</span> <span class="o">!</span><span class="n">index</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class="line">        <span class="n">pos</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class="line">        <span class="n">cardsArray</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">card</span><span class="p">)</span>
+</span><span class="line">        <span class="n">cardIdsArray</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">card</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+</span><span class="line">        <span class="n">initialCardsArray</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+</span><span class="line">      <span class="k">else</span>
+</span><span class="line">        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">      <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">initialCardsArray</span><span class="o">.</span><span class="n">size</span>
+</span><span class="line">        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cardsArray</span>
+</span><span class="line">  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Any comments or additional solutions would be greatly appreciated! Comments section coming soon!</p>
 </div>
@@ -299,7 +325,70 @@ end
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/saving-drag-and-drop-sort-position/';
+        var disqus_url = 'http://micahroberson.com/saving-drag-and-drop-sort-position/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

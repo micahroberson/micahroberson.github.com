@@ -53,27 +53,7 @@
 
 </head>
 
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background: url(/images/desk.jpg) fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    z-index: -1;
-"></div>
-<div style="
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    z-index: -1;
-"></div>
-<body id="skrollr-body"   class="no-sidebar"  >
+<body id="skrollr-body"   >
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
@@ -95,29 +75,17 @@
   
 
 </nav>
-  <footer class='fixed-footer'>
-    <div class='social-links'>
-    
-<section>
-	<form action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-    <span>Get Fresh Content</span>
-		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
-		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
-	</form>
-</section>
-
-
-    </div>
-  </footer>
   <div id="main">
-    <div id="content" class="fadein">
+    <div id="content">
       <div>
-<article class="hentry" role="article">
+<article class="hentry" role="article"  itemscope itemtype="http://schema.org/BlogPosting">
   
   <header>
     
-      <p class="meta">
-        
+      <h2 class="entry-title">Not Another Productivity Post</h2>
+      
+        <p class="meta">
+          
 
 
 
@@ -130,28 +98,33 @@
 
 
 <time datetime="2012-12-01T13:21:00-08:00" pubdate data-updated="true">Dec 01</time>
-        
-      </p>
-    
-    
-      <h4 class="entry-title">Not Another Productivity Post</h4>
+          
+        </p>
+      
     
   </header>
 
 
-<div class="entry-content"><p>Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.</p>
-
-<p>Our very first client came back for additional projects a number of times. While working on the most recent of these, James pointed out that we are always much more efficient when working on projects for this client than anything else. I gave it some thought, and came up with a few main reasons:</p>
+<div class="entry-content"><p>Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.
+<!--more-->
+Our very first client came back for additional projects a number of times. While working on the most recent of these, James pointed out that we are always much more efficient when working on projects for this client than anything else. I gave it some thought, and came up with a few main reasons:</p>
 
 <ol>
-<li><p>The scope is always small and well defined. Sometimes its a series of small updates, sometimes its a whole new feature that requires end-to-end code changes, but its always well thought out. This client knows, for the most part, exactly what they want added and/or changed and how they would like it to function. And if they don&rsquo;t have it down pat, we clear it up in the meeting beforehand. This one can&rsquo;t always be replicated, because oftentimes the client doesn&rsquo;t know what they want. However, that just means we&rsquo;re required to take upon that role and set the requirements and guidelines for ourselves.</p></li>
-<li><p>We know the codebase inside and out. We spent how many months on that first iteration? This may have been the first project we ever did and it may not be quite up to par with our latest endeavors(we tend to stay away from ASP.NET these days), but we still know whats going on and how to add new features. Part of the reason is that we started with a very simple concept and continuously built on top of it. With each iteration we were doing pretty much the same thing. Add an ASP gridview , make a few database changes, bind the table with a SQL datasource, etc. This repetition and constant contact with the codebase is what established our familiarity.</p></li>
-<li><p>We make sure we work on it together. This one&rsquo;s big. And we&rsquo;ve know this for a while, but this project is still the only one we do it on. We hate the thought of working on that codebase, so we go in with the intention of banding together and getting shit done. And its never as bad as it seems, its just not as fun as working on something newer(and not ASP.NET). Its like going to the gym &ndash; you can get a decent workout going by yourself, but you&rsquo;re never going to be able to push yourself like you can with someone spotting you and trying to out-benchpress you.</p></li>
-<li><p>&lsquo;With the intention of getting shit done&rsquo;. This is another tremendously important factor in the productivity equation. There&rsquo;s big difference between starting a project with the mindset of <i>just casually going at it with no real direction</i> vs. <i>taking calculated steps to hit all of the requirements and ship something</i>. The latter results in a productivity increase of 1000x (I ran the numbers&hellip;). We shouldn&rsquo;t start coding up a feature until we have some direction and we also shouldn&rsquo;t quit working on a feature until its done and functioning. This doesn&rsquo;t mean we don&rsquo;t switch projects, it means within a single project, we should start a feature and make sure its done and ready to ship before moving on. This can be applied all sorts of tasks, not just coding.</p></li>
+  <li>
+    <p>The scope is always small and well defined. Sometimes its a series of small updates, sometimes its a whole new feature that requires end-to-end code changes, but its always well thought out. This client knows, for the most part, exactly what they want added and/or changed and how they would like it to function. And if they don’t have it down pat, we clear it up in the meeting beforehand. This one can’t always be replicated, because oftentimes the client doesn’t know what they want. However, that just means we’re required to take upon that role and set the requirements and guidelines for ourselves.</p>
+  </li>
+  <li>
+    <p>We know the codebase inside and out. We spent how many months on that first iteration? This may have been the first project we ever did and it may not be quite up to par with our latest endeavors(we tend to stay away from ASP.NET these days), but we still know whats going on and how to add new features. Part of the reason is that we started with a very simple concept and continuously built on top of it. With each iteration we were doing pretty much the same thing. Add an ASP gridview , make a few database changes, bind the table with a SQL datasource, etc. This repetition and constant contact with the codebase is what established our familiarity. </p>
+  </li>
+  <li>
+    <p>We make sure we work on it together. This one’s big. And we’ve know this for a while, but this project is still the only one we do it on. We hate the thought of working on that codebase, so we go in with the intention of banding together and getting shit done. And its never as bad as it seems, its just not as fun as working on something newer(and not ASP.NET). Its like going to the gym - you can get a decent workout going by yourself, but you’re never going to be able to push yourself like you can with someone spotting you and trying to out-benchpress you. </p>
+  </li>
+  <li>
+    <p>‘With the intention of getting shit done’. This is another tremendously important factor in the productivity equation. There’s big difference between starting a project with the mindset of <i>just casually going at it with no real direction</i> vs. <i>taking calculated steps to hit all of the requirements and ship something</i>. The latter results in a productivity increase of 1000x (I ran the numbers…). We shouldn’t start coding up a feature until we have some direction and we also shouldn’t quit working on a feature until its done and functioning. This doesn’t mean we don’t switch projects, it means within a single project, we should start a feature and make sure its done and ready to ship before moving on. This can be applied all sorts of tasks, not just coding. </p>
+  </li>
 </ol>
 
-
-<p>So what do we take away from all of this? Two things. The fact that we are most efficient on this one specific codebase is just wrong. It&rsquo;s actually ridiculous. We definitely don&rsquo;t know the ASP.NET more than PHP or Ruby, and it definitely doesn&rsquo;t offer up much in regards to &lsquo;rapid prototyping&rsquo;. Its purely how we work on the projects and the mindset we go in with. Second thing. Make sure the feature-sets are well defined, and there&rsquo;s never a single developer completing the entire project.</p>
+<p>So what do we take away from all of this? Two things. The fact that we are most efficient on this one specific codebase is just wrong. It’s actually ridiculous. We definitely don’t know the ASP.NET more than PHP or Ruby, and it definitely doesn’t offer up much in regards to ‘rapid prototyping’. Its purely how we work on the projects and the mindset we go in with. Second thing. Make sure the feature-sets are well defined, and there’s never a single developer completing the entire project.</p>
 </div>
 
   <footer>
@@ -199,7 +172,70 @@
   </footer>
 </article>
 
+  <section>
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'micahroberson';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://micahroberson.com/not-another-productivity-post/';
+        var disqus_url = 'http://micahroberson.com/not-another-productivity-post/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
 </div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+	<form class='mailchimp-form' action="http://micahroberson.us7.list-manage.com/subscribe/post?u=604e31743665c33977d2efa00&amp;id=bf22667003" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+    <h2>Get Fresh Content</h2>
+		<input type="text" placeholder="Your Email Here" autocomplete="off" name="EMAIL" id="mce-EMAIL">
+		<button type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+	</form>
+</section>
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/upload-files-directly-to-s3-w-backbone-on-heroku/">Upload files directly to S3 w/ Backbone on Heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/saving-drag-and-drop-sort-position/">Saving Drag and Drop Sort Position</a>
+      </li>
+    
+      <li class="post">
+        <a href="/preventing-duplicate-content/">Preventing Duplicate Content | Rails SEO Tip</a>
+      </li>
+    
+      <li class="post">
+        <a href="/why-you-need-a-red-team/">Why You Need a Red Team</a>
+      </li>
+    
+      <li class="post">
+        <a href="/absolute-links-with-backbone-dot-js-and-rails/">Absolute Links with Backbone.js and Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
 
 
     </div>

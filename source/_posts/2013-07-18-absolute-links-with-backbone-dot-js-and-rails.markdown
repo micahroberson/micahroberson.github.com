@@ -9,7 +9,7 @@ description: Methods for allowing users to refresh within a Backbone.js app or l
 ---
 
 Ideally user's won't ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
-
+<!--more-->
 To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails' perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I've just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I'm using Devise and also include some "api" scoped routes to illustrate how this particular app is setup.
 
     devise_for :users

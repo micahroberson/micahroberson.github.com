@@ -96,7 +96,7 @@ body i {
 }*/
 
 .logo {
-	background: transparent url('/images/logo_orange_14.png') no-repeat center center;
+	background: transparent url('/images/logo_red_flat.png') no-repeat center center;
   @include background-size(contain);
 	height: 133px;
 	width: 133px;
@@ -163,7 +163,7 @@ article header .entry-title a {
 }
 article.hentry header {
   margin: 0;
-  h4 {color: #FF865F; max-width: 447px - 56px;}
+  h4 {color: #F64744; max-width: 447px - 56px;}
 }
 
 .navbar-wrapper {
@@ -239,8 +239,26 @@ pre {
   font-size: .8em;
 
   &:hover {
-    color: #FF865D;
+    color: #F64744;
   }
+}
+
+button {
+  @include border-radius(2px);
+  background-color: #F64744;
+  border: 0;
+  padding: 0.85em 1.6em 0.9em;
+  margin-top: 2px;
+  display: inline-block;
+  vertical-align: top;
+  color: #fff;
+}
+
+input {
+  @include border-radius(2px);
+  border: 1px solid #676767;
+  padding: .8em .8em;
+  outline: none;
 }
 
 .fixed-footer {
@@ -259,22 +277,7 @@ pre {
     span {
       color: #474747;
     }
-    input {
-      @include border-radius(2px);
-      border: 1px solid #676767;
-      padding: .2em .4em;
-      outline: none;
-    }
-    button {
-      @include border-radius(2px);
-      background-color: #FF865D;
-      border: 0;
-      padding: 0.25em .6em .3em;
-      margin-top: 4px;
-      display: inline-block;
-      vertical-align: top;
-      color: #fff;
-    }
+    
     .twitter-link {
       display: inline;
       float: left;
@@ -287,5 +290,36 @@ pre {
   display: none;
 }
 
+ul {
+  list-style-type: disc;
+}
+
 @import 'twilight';
 
+.sidebar {
+
+  form {
+    margin-bottom: 1.5em;
+
+    input {
+      width: 144px;
+    }
+  }
+
+  li {
+    font-size: 0.7em;
+  }
+
+  li a {
+    font-size: 1.2em;
+  }
+
+}
+
+article header {
+  max-width: none;
+}
+
+.entry-content a {
+  text-decoration: underline;
+}

@@ -9,7 +9,7 @@ description: Software consulting projects and continuous productivity.
 ---
 
 Note: This is not a bunch of tips on how to block Facebook or why you should be setting timers to keep yourself focused. Its merely a series of observations and hypotheses I made over the course of several client-projects at ReadyApps.
-
+<!--more-->
 Our very first client came back for additional projects a number of times. While working on the most recent of these, James pointed out that we are always much more efficient when working on projects for this client than anything else. I gave it some thought, and came up with a few main reasons:
 
 1. The scope is always small and well defined. Sometimes its a series of small updates, sometimes its a whole new feature that requires end-to-end code changes, but its always well thought out. This client knows, for the most part, exactly what they want added and/or changed and how they would like it to function. And if they don't have it down pat, we clear it up in the meeting beforehand. This one can't always be replicated, because oftentimes the client doesn't know what they want. However, that just means we're required to take upon that role and set the requirements and guidelines for ourselves.

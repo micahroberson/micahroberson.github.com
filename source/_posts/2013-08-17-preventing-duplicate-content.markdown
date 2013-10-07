@@ -10,7 +10,7 @@ cover: http://micahroberson.com/images/logo_orange_14.png
 ---
 
 It's useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there's a simple solution for site's built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): [rack-rewrite](https://github.com/jtrupiano/rack-rewrite). Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we're going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.
-
+<!--more-->
 For this example, I'm going to use some snippets from the main Rails app behind [GreekSquare](https://greeksquare.com). Let's begin by adding the rack-rewrite gem:
 
     gem 'rack-rewrite'

@@ -9,6 +9,7 @@ description: Correctly configure embedded_in/embeds_many relations with Mongoid 
 ---
 
 [Mongoid::Alize](https://github.com/dzello/mongoid_alize) is a great little gem that provides a simple, light DSL for denormalizing attributes across all types of Mongoid relations. Under the hood, it implements all of the necessary callbacks on both sides of the relation and provides the selected fields in an easy to use hash.
+<!--more-->
 
     include Mongoid::Alize
     ...

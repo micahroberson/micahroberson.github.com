@@ -11,6 +11,8 @@ description: Efficiently handling large client-side dataset with multiple foreig
 
 At Arkad, we had the concept of a DataSeries, which was a model that sat at the crossroads of multiple many-to-many relations. Fortunately, we were able to get around modeling ALL of the relations client-side by denormalizing the necessary attributes into the DataSeries json via RABL templates. However, certain client-side foreign key lookups were unavoidable. My first iteration simply used the proxied underscore 'filter', 'find' and 'where' methods to do the necessary lookups.
 
+<!--more-->
+
     getByMappingIdAndCompanyId: function(mapping_id, company_id) {
       var mapping = mappingsCollection.get(mapping_id);
       return _.filter(mapping.get('data_series'), function(ds) {

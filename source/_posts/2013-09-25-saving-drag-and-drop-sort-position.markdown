@@ -10,7 +10,7 @@ cover: http://micahroberson.com/images/dragndrop.png
 ---
 
 We recently began work on an in-house solution for managing our projects at [ReadyApps](https://www.readyappsdev.com), and this solution requires that we have the ability to drag and drop 'cards' in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
-
+<!--more-->
 {% img width-100 /images/dragndrop.png %}
 
 I considered the following factors/constraints when determining the best implementation:
@@ -38,74 +38,78 @@ The solution we ended up going with is to simulate a linked-list in order to mai
 Although it starts to climb quickly upwards of 1000 cards, its highly unlikely that a user would ever add that many cards and still expect good performance, so we're content with the results. 
 
 Implementing the solution client-side with [Backbone.js](http://www.backbonejs.org) and [jQuery UI](http://www.jqueryui.com) is done with the following method to be called after a card is 'dropped':
+{% codeblock lang:coffeescript %}
+  updatePositions: (e, ui) =>
+    $ui = ui.item
+    id = $ui.data('model-id')
+    $after = $ui.prev()
 
-    updatePositions: (e, ui) =>
-      $ui = ui.item
-      id = $ui.data('model-id')
-      $after = $ui.prev()
+    afterCardId = if $after then $after.data('model-id') else null
 
-      afterCardId = if $after then $after.data('model-id') else null
-
-      card = @cardsCollection.get(id)
-      card.save(
-        after_card_id: afterCardId
-        )
-
+    card = @cardsCollection.get(id)
+    card.save(
+      after_card_id: afterCardId
+      )
+{% endcodeblock %}
 Server-side we'll add a method to be called after updating the after_card_id(ID of the preceding card, nil if first) of the card that moved:
 
-    def update_after_card(stage_id_was, after_card_id_was)
-      # Update card that previously came after
-      Card.where(after_card_id: id).update_all(
-        after_card_id: after_card_id_was
-        )
+{% codeblock lang:ruby %}
+  def update_after_card(stage_id_was, after_card_id_was)
+    # Update card that previously came after
+    Card.where(after_card_id: id).update_all(
+      after_card_id: after_card_id_was
+      )
 
-      # Update card that now comes after
-      Card.where(:id.ne => id).where(after_card_id: after_card_id).update_all(
-        after_card_id: id
-        )
-    end
+    # Update card that now comes after
+    Card.where(:id.ne => id).where(after_card_id: after_card_id).update_all(
+      after_card_id: id
+      )
+  end
+{% endcodeblock %}
 
 Also server-side we can retrieve the data from a MongoDB backed Rails app as follows (this was a very quick implementation and there are definitely some improvements that could be made to improve the efficiency):
 
-    has_many :cards
-    ...
-    def ordered_cards
-      cardsArray = []
-      initialCardsArray = cards.to_a
-      
-      cardIdsArray = []
-      indexHash = {}
-      i = 0
-      x = 0
+{% codeblock lang:ruby %}
+  has_many :cards
+  ...
+  def ordered_cards
+    cardsArray = []
+    initialCardsArray = cards.to_a
+    
+    cardIdsArray = []
+    indexHash = {}
+    i = 0
+    x = 0
 
-      if initialCardsArray.size <= 1
-        return initialCardsArray
-      end
-
-      while initialCardsArray.size > 0 do
-        card = initialCardsArray[i]
-        index = cardIdsArray.index(card.after_card_id)
-        
-        if card.after_card_id.nil?
-          cardsArray.insert(0, card)
-          cardIdsArray.insert(0, card.id.to_s)
-          initialCardsArray.delete(card)
-        elsif !index.nil?
-          pos = index + 1
-          cardsArray.insert(pos, card)
-          cardIdsArray.insert(pos, card.id.to_s)
-          initialCardsArray.delete(card)
-        else
-          i += 1
-        end
-        
-        if i == initialCardsArray.size
-          i = 0
-        end
-        
-      end
-
-      cardsArray
+    if initialCardsArray.size <= 1
+      return initialCardsArray
     end
+
+    while initialCardsArray.size > 0 do
+      card = initialCardsArray[i]
+      index = cardIdsArray.index(card.after_card_id)
+      
+      if card.after_card_id.nil?
+        cardsArray.insert(0, card)
+        cardIdsArray.insert(0, card.id.to_s)
+        initialCardsArray.delete(card)
+      elsif !index.nil?
+        pos = index + 1
+        cardsArray.insert(pos, card)
+        cardIdsArray.insert(pos, card.id.to_s)
+        initialCardsArray.delete(card)
+      else
+        i += 1
+      end
+      
+      if i == initialCardsArray.size
+        i = 0
+      end
+      
+    end
+
+    cardsArray
+  end
+{% endcodeblock %}
 
 Any comments or additional solutions would be greatly appreciated! Comments section coming soon!

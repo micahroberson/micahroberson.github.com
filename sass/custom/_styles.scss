@@ -323,3 +323,15 @@ article header {
 .entry-content a {
   text-decoration: underline;
 }
+
+.work-aside {
+  ul {
+    list-style-type: none;
+    margin-left: 0;
+    margin-bottom: 0;
+
+    img {
+      max-width: 50%;
+    }
+  }
+}

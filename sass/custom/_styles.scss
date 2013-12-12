@@ -111,9 +111,9 @@ body i {
     width: 133px;
     height: 133px;
     @include border-radius(70px);
-    background: transparent url('/images/micah_roberson.jpg') no-repeat 0% 24%;
+    background: transparent url('/images/micah-headshot-color-square.png') no-repeat 50% 50%;
     @include transition(opacity .5s linear);
-    @include background-size(auto);
+    @include background-size(100%);
     opacity: 0;
 
     &:hover {

@@ -24,7 +24,7 @@ article {
     p {
       font-size: .9em;
       // hsl(220, 25, 75)
-      color: lighten($text-color-light, 10);
+      color: $text-color;
       margin: 0;
       &.meta {
         @extend .sans;

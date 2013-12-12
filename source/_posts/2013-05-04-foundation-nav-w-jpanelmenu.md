@@ -1,12 +1,12 @@
 ---
 layout: post
 published: true
-title: "Foundation Nav w/ jPanelMenu"
+title: "Mobile Navigation using Foundation and jPanelMenu"
 comments: true
 date: 2013-05-04 10:21
 categories: 
 keywords: rails, single page app, foundation, zurb, jpanelmenu, mobile navigation, flyout menu, facebook style navigation
-description: Producing a more mobile friendly navbar in Foundation with a little help from JPanelMenu.
+description: How to product a more mobile friendly navbar in Foundation with a little help from JPanelMenu.
 ---
 
 [Foundation](http://foundation.zurb.com/) provides some excellent out-of-the-box support for responsive layouts and navigation. However, in building out the new mobile interface for [GreekSquare](http://www.greeksquare.com/), we weren't satisfied with the default style. 

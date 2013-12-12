@@ -4,7 +4,7 @@
   <title><![CDATA[Micah Roberson]]></title>
   <link href="http://micahroberson.com/atom.xml" rel="self"/>
   <link href="http://micahroberson.com/"/>
-  <updated>2013-10-13T19:18:30-07:00</updated>
+  <updated>2013-12-12T10:44:32-08:00</updated>
   <id>http://micahroberson.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>
@@ -12,6 +12,164 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile and Responsive Navigation without jPanelMenu]]></title>
+    <link href="http://micahroberson.com/mobile-and-responsive-navigation-without-jpanelmenu/"/>
+    <updated>2013-12-12T08:36:00-08:00</updated>
+    <id>http://micahroberson.com/mobile-and-responsive-navigation-without-jpanelmenu</id>
+    <content type="html"><![CDATA[<p>In my previous post, <a href="http://localhost:4000/foundation-nav-w-jpanelmenu">Mobile Navigation using Foundation and jPanelMenu</a>, I explained how to transform a standard <a href="http://foundation.zurb.com">Foundation</a> navbar into a more mobile friendly, Facebook-style flyout panel. We initially built this for <a href="https://greeksquare.com">GreekSquare</a> and the original implementation was fast and smooth. However, as the complexity of our app grew and as we began to test the mobile version on more devices, we quickly found out the performance was less than stellar. Animations were jagged and laggy, and the DOM was polluted with duplicate elements created by the <a href="http://jpanelmenu.com/">jPanelMenu</a> plugin. Although the jPanelMenu animations are written in a hardware-accelerating fashion, the menu was still too slow. I decided to remove the plugin entirely and build the simple mechanism manually. </p>
+
+<!--more-->
+
+<p>This is the entirety of the SCSS responsible for the new menu:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+</pre></td><td class="code"><pre><code class="sass"><span class="line">  <span class="nc">.slidemenu-body</span> <span class="err">{</span>
+</span><span class="line">    <span class="na">overflow-x</span><span class="o">:</span> <span class="no">hidden</span><span class="err">;</span>
+</span><span class="line">    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span><span class="err">;</span>
+</span><span class="line">  <span class="err">}</span>
+</span><span class="line">  <span class="nc">.slidemenu</span> <span class="err">{</span>
+</span><span class="line">    <span class="k">@include</span><span class="nd"> transition</span><span class="p">(</span><span class="n">all</span> <span class="mi">0</span><span class="mf">.3</span><span class="kt">s</span> <span class="n">ease</span><span class="p">)</span><span class="err">;</span>
+</span><span class="line">  <span class="err">}</span>
+</span><span class="line">  <span class="nc">.slidemenu-left</span> <span class="err">{</span>
+</span><span class="line">    <span class="na">left</span><span class="o">:</span> <span class="mi">-200</span><span class="kt">px</span><span class="err">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="na">-webkit-backface-visibility</span><span class="o">:</span> <span class="no">hidden</span><span class="err">;</span>
+</span><span class="line">    <span class="na">-moz-backface-visibility</span><span class="o">:</span> <span class="no">hidden</span><span class="err">;</span>
+</span><span class="line">    <span class="na">-ms-backface-visibility</span><span class="o">:</span> <span class="no">hidden</span><span class="err">;</span>
+</span><span class="line">    <span class="na">backface-visibility</span><span class="o">:</span> <span class="no">hidden</span><span class="err">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="na">-webkit-perspective</span><span class="o">:</span> <span class="mi">1000</span><span class="err">;</span>
+</span><span class="line">    <span class="na">-moz-perspective</span><span class="o">:</span> <span class="mi">1000</span><span class="err">;</span>
+</span><span class="line">    <span class="na">-ms-perspective</span><span class="o">:</span> <span class="mi">1000</span><span class="err">;</span>
+</span><span class="line">    <span class="na">perspective</span><span class="o">:</span> <span class="mi">1000</span><span class="err">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">@include</span><span class="nd"> transform</span><span class="p">(</span><span class="nf">translate3d</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="p">))</span><span class="err">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">&amp;</span><span class="nc">.slidemenu-open</span> <span class="err">{</span>
+</span><span class="line">      <span class="k">@include</span><span class="nd"> transform</span><span class="p">(</span><span class="nf">translateX</span><span class="p">(</span><span class="mi">200</span><span class="kt">px</span><span class="p">))</span><span class="err">;</span>
+</span><span class="line">    <span class="err">}</span>
+</span><span class="line">  <span class="err">}</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// For GreekSquare, we show the whole navbar when the user isn&#39;t on a phone/tablet and</span>
+</span><span class="line">  <span class="c1">// hide the button to collapse/open the navbar</span>
+</span><span class="line">  <span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="nd">:</span> <span class="nt">769px</span><span class="o">)</span> <span class="err">{</span>
+</span><span class="line">    <span class="nc">.slidemenu-left</span> <span class="err">{</span>
+</span><span class="line">      <span class="na">left</span><span class="o">:</span> <span class="mi">0</span><span class="kt">px</span><span class="err">;</span>
+</span><span class="line">    <span class="err">}</span>
+</span><span class="line">    <span class="nc">.subnav-btn</span> <span class="err">{</span>
+</span><span class="line">      <span class="na">display</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+</span><span class="line">    <span class="err">}</span>
+</span><span class="line">  <span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now all we have to do is toggle the slidemenu-open class on both the body and the sidenav elements.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line">  <span class="kd">var</span> <span class="nx">$elems</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body, #subnav&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// Open the menu when the icon is clicked</span>
+</span><span class="line">  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.subnav-btn&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">$elems</span><span class="p">.</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">&#39;slidemenu-open&#39;</span><span class="p">);</span>
+</span><span class="line">  <span class="p">});</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// Close the menu when a link within is clicked, and still follow the</span>
+</span><span class="line">  <span class="c1">// link (don&#39;t stop propagation)</span>
+</span><span class="line">  <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;#subnav.slidemenu-open a&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">$elems</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;slidemenu-open&#39;</span><span class="p">);</span>
+</span><span class="line">  <span class="p">});</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// Close the menu and stop propagation on the click event to prevent the action on</span>
+</span><span class="line">  <span class="c1">// whatever element the user actually clicked</span>
+</span><span class="line">  <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;body.slidemenu-open #main&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+</span><span class="line">    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class="line">
+</span><span class="line">    <span class="nx">$elems</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;slidemenu-open&#39;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class="line">  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here’s the finished product - mobile version closed &amp; open and the desktop version:</p>
+
+<p><img class="width-50 left" src="http://micahroberson.com/images/gs_nav_closed.png" />
+<img class="width-50 left" src="http://micahroberson.com/images/gs_nav_open.png" /></p>
+
+<p><img class="width-100 center" src="http://micahroberson.com/images/gs_desktop.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building Doozie]]></title>
+    <link href="http://micahroberson.com/building-doozie/"/>
+    <updated>2013-10-13T20:01:00-07:00</updated>
+    <id>http://micahroberson.com/building-doozie</id>
+    <content type="html"><![CDATA[<p>At <a href="https://www.readyappsdev.com">RAD</a>, we’ve tried just about every project management tool out there including <a href="https://basecamp.com">BaseCamp</a>, <a href="https://www.pivotaltracker.com/">Pivotal Tracker</a>, <a href="https://trello.com">Trello</a>, <a href="https://www.planscope.com">Planscope</a>, <a href="https://www.asana.com">Asana</a>, <a href="https://blossom.io">Blossom</a>, and probably some others that I’m forgetting. Usually the problem wasn’t that the product sucked, although some of them did in my opinion, but that they just had some little nuances that irked us and left a bad taste in our mouths. That’s not to say we didn’t try to adapt or make some of the apps work. We spent a good deal of time using Asana, which I still love for what it is, and also Blossom, which turned out to be a major influencer in the app we decided to build in-house - <a href="https://doozie.io">Doozie</a>. After switching around with different apps for over a year, we decided it was time to bite the bullet and build it ourselves. </p>
+
+<!--more-->
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Upload files directly to S3 w/ Backbone on Heroku]]></title>
@@ -634,7 +792,7 @@ The different mindset I mentioned, came about as a result of a conversation I ha
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Foundation Nav w/ jPanelMenu]]></title>
+    <title type="html"><![CDATA[Mobile Navigation using Foundation and jPanelMenu]]></title>
     <link href="http://micahroberson.com/foundation-nav-w-jpanelmenu/"/>
     <updated>2013-05-04T10:21:00-07:00</updated>
     <id>http://micahroberson.com/foundation-nav-w-jpanelmenu</id>

@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Absolute Links with Backbone.js and Rails - Micah Roberson</title>
+  <title>Building Doozie - Micah Roberson</title>
   <meta name="author" content="Micah Roberson">
 
   
-  <meta name="description" content="Methods for allowing users to refresh within a Backbone.js app or load a page within a Backbone.js app from an an absolute url">
-  <meta name="keywords" content="rails, backbone.js, backbone, require.js, single page app, refresh, push-state, history">
+  <meta name="description" content="The why and how behind Doozie.io, and also a look at the tech stack supporting the app.">
+  <meta name="keywords" content="project management, doozie, doozie.io, product development">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails">
+  <link rel="canonical" href="http://micahroberson.com/building-doozie">
   <link href="/favicon.ico" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -44,11 +44,11 @@
   </script>
 
 
-  <meta property="og:url" content="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/">
+  <meta property="og:url" content="http://micahroberson.com/building-doozie/">
 <meta property="og:type" content="website" />
 
-<meta property="og:title" content="Absolute Links with Backbone.js and Rails">
-<meta property="og:description" content="Methods for allowing users to refresh within a Backbone.js app or load a page within a Backbone.js app from an an absolute url">
+<meta property="og:title" content="Building Doozie">
+<meta property="og:description" content="The why and how behind Doozie.io, and also a look at the tech stack supporting the app.">
  
 
 </head>
@@ -83,10 +83,10 @@
   <header>
     
       <h2 class="entry-title">
-        Absolute Links With Backbone.js and Rails
+        Building Doozie
         
           <span style="float:right;margin-top:2px;">
-            <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/" data-via="micahroberson" data-counturl="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/" >Tweet</a>
+            <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://micahroberson.com/building-doozie/" data-via="micahroberson" data-counturl="http://micahroberson.com/building-doozie/" >Tweet</a>
           </span>
         
       </h2>
@@ -104,7 +104,7 @@
   
 
 
-<time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
+<time datetime="2013-10-13T20:01:00-07:00" pubdate data-updated="true">Oct 13</time>
           
         </p>
       
@@ -112,68 +112,10 @@
   </header>
 
 
-<div class="entry-content"><p>Ideally user’s won’t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
+<div class="entry-content"><p>At <a href="https://www.readyappsdev.com">RAD</a>, we’ve tried just about every project management tool out there including <a href="https://basecamp.com">BaseCamp</a>, <a href="https://www.pivotaltracker.com/">Pivotal Tracker</a>, <a href="https://trello.com">Trello</a>, <a href="https://www.planscope.com">Planscope</a>, <a href="https://www.asana.com">Asana</a>, <a href="https://blossom.io">Blossom</a>, and probably some others that I’m forgetting. Usually the problem wasn’t that the product sucked, although some of them did in my opinion, but that they just had some little nuances that irked us and left a bad taste in our mouths. That’s not to say we didn’t try to adapt or make some of the apps work. We spent a good deal of time using Asana, which I still love for what it is, and also Blossom, which turned out to be a major influencer in the app we decided to build in-house - <a href="https://doozie.io">Doozie</a>. After switching around with different apps for over a year, we decided it was time to bite the bullet and build it ourselves. </p>
+
 <!--more-->
-To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails’ perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I’ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I’m using Devise and also include some “api” scoped routes to illustrate how this particular app is setup.</p>
 
-<pre><code>devise_for :users
-scope :path =&gt; "api" do
-  resources :projects
-  ...
-  resources :posts
-end
-constraints :format =&gt; "html" do
-  match '*path', :controller =&gt; 'home', :action =&gt; 'index'
-end
-</code></pre>
-
-<p>Within the Home Index view, we just need to ensure we pass down that params[:path] value to the backbone router. This is a snippet from index.html.erb and also where I would include any bootstrapped data that the app would always need before starting up.</p>
-
-<pre><code>&lt;script&gt;
-  require([
-    'jquery',
-    'underscore',
-    'backbone',
-    'router'
-  ], function($, _, Backbone, Router){
-    $(function() {
-      // Set the current user
-      currentUserModel.set(#{Rabl::Renderer.new('users/current_user', current_user, :view_path =&gt; 'app/views').render});
-      // Navigate to the current route. One could also pull this from window.location.pathname if no fancy Rails manipulation is req'd
-      Router.navigate('&lt;%= params[:path].html_safe %&gt;', {trigger: true});
-    });
-  });
-&lt;/script&gt;
-</code></pre>
-
-<p>Assuming all the backbone routes are implemented and setup correctly, this is all that needs to be done! Depending on the type of view, it may need some additional logic to work properly from both an absolute url and also from a relative link within the app. The difference being that it may be dependent on resources being previously loaded which won’t be available should the user arrive at the view from an absolute path. There’s a couple of options for this scenario: a. Use a Railsy strategy in the router and run a before_filter on every route to load necessary dependencies before even getting to the view code, b. Pass the model to the view if its available and don’t if its not, but equip the view to react accordingly. For the former, there’s a handy Backbone.js mixin called <a href="https://github.com/boazsender/backbone.routefilter">backbone.routefilter</a>, which will call router.before and/or router.after around each route.</p>
-
-<pre><code>before: () -&gt;
-  route = Backbone.history.fragment
-
-  if route.indexOf('dashboard') != -1 || route.indexOf('posts') != -1
-    if undefined == currentUserModel || currentUserModel.isNew()
-      @listenToOnce currentUserModel, 'change', () =&gt; Backbone.history.loadUrl(route)
-      return false
-</code></pre>
-
-<p>This before filter simply checks for the currentUserModel to be set and returns false if it isn’t while setting up a callback to re-run the same route once the model IS loaded.  The former solution mentioned above might look like this:</p>
-
-<pre><code>render: () -&gt;
-  if !@model
-    @model = new userModel _id: @user_id
-    @listenToOnce @model, 'sync', @renderProfile
-    @model.fetch null, { success: () =&gt; @listenTo @model, 'change', @renderProfile }
-    usersCollection.add @model
-  else
-    @listenTo @model, 'change', @renderProfile
-    @renderProfile()
-
-  @$el.html _.template(profileTemplate)
-  @
-</code></pre>
-
-<p>Depending on the app and if there are some common dependencies throughout, the before filter method might work well, while the latter method might work better for other scenarios. Personally I’ve used the latter for views that are normally accessed via a list view, ie. a user profile page or detail view, but should still be accessible via the absolute url.</p>
 </div>
 
   <footer>
@@ -195,7 +137,7 @@ end
   
 
 
-<time datetime="2013-07-18T09:15:00-07:00" pubdate data-updated="true">Jul 18</time>
+<time datetime="2013-10-13T20:01:00-07:00" pubdate data-updated="true">Oct 13</time>
       
 
 
@@ -203,7 +145,7 @@ end
     <!-- 
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/" data-via="micahroberson" data-counturl="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://micahroberson.com/building-doozie/" data-via="micahroberson" data-counturl="http://micahroberson.com/building-doozie/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -216,10 +158,10 @@ end
      -->
     <p class="meta">
       
-        <a class="basic-alignment left" href="/rails-mongodb-and-embedded-docs/" title="Previous Post: MongoDB Schema Design">&laquo; MongoDB Schema Design</a>
+        <a class="basic-alignment left" href="/upload-files-directly-to-s3-w-backbone-on-heroku/" title="Previous Post: Upload files directly to S3 w/ Backbone on Heroku">&laquo; Upload files directly to S3 w/ Backbone on Heroku</a>
       
       
-        <a class="basic-alignment right" href="/why-you-need-a-red-team/" title="next Post: Why You Need a Red Team">Why You Need a Red Team &raquo;</a>
+        <a class="basic-alignment right" href="/mobile-and-responsive-navigation-without-jpanelmenu/" title="next Post: Mobile and Responsive Navigation without jPanelMenu">Mobile and Responsive Navigation without jPanelMenu &raquo;</a>
       
     </p>
   </footer>
@@ -233,8 +175,8 @@ end
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/';
-        var disqus_url = 'http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails/';
+        var disqus_identifier = 'http://micahroberson.com/building-doozie/';
+        var disqus_url = 'http://micahroberson.com/building-doozie/';
         var disqus_script = 'embed.js';
       
     (function () {

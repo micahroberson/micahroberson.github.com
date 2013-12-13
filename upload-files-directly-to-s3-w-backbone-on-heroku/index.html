@@ -16,6 +16,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta itemprop="image" content="http://micahroberson.com/images/micah-headshot-color-square.png">
 
   
   <link rel="canonical" href="http://micahroberson.com/upload-files-directly-to-s3-w-backbone-on-heroku">
@@ -54,12 +55,16 @@
 </head>
 
 <body id="skrollr-body"   >
+  
+  <span itemscope itemtype="http://schema.org/Article">
+  
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
   </a>
   <div class="intro">
-    <h1><a href='/'>Micah Roberson</a></h1>
+    <h1><a href='/'><span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Micah Roberson</span></span></a></h1>
     <h2>Web Developer &amp; Entrepreneur</h2>
     <h4>San Francisco, California</h4>
     <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
@@ -112,7 +117,7 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://aws.amazon.com/s3/">S3</a> has been the defacto standard for some time now when it comes to cloud storage, specifically for handling user uploads within an app. PaaS providers often have limitations on storage and/or file uploads - most notably Heroku, which doesn’t allow any file writes outside of the /tmp directory. Fortunately this is an easy enough problem to solve, with help from <a href="https://github.com/thoughtbot/paperclip">Paperclip</a> and <a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a>. Although utilizing one of these options may be easy and not all that different from how you would handle user uploads in a classic Rails app where you CAN write to the filesystem, they aren’t all that efficient on Heroku. A simple file upload becomes a data-intesive, long-drawn-out request in order to get the file from the browser(client) to the server(Heroku) and then to S3. Ideally these gems would process the file(s) in the background, and we could say the time to do so is negligible as a result. But when we decide we want to show progress to the user and also know when the upload is complete, things get a lot more complicated!</p>
+<div class="entry-content" itemprop="articleBody"><p><a href="http://aws.amazon.com/s3/">S3</a> has been the defacto standard for some time now when it comes to cloud storage, specifically for handling user uploads within an app. PaaS providers often have limitations on storage and/or file uploads - most notably Heroku, which doesn’t allow any file writes outside of the /tmp directory. Fortunately this is an easy enough problem to solve, with help from <a href="https://github.com/thoughtbot/paperclip">Paperclip</a> and <a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a>. Although utilizing one of these options may be easy and not all that different from how you would handle user uploads in a classic Rails app where you CAN write to the filesystem, they aren’t all that efficient on Heroku. A simple file upload becomes a data-intesive, long-drawn-out request in order to get the file from the browser(client) to the server(Heroku) and then to S3. Ideally these gems would process the file(s) in the background, and we could say the time to do so is negligible as a result. But when we decide we want to show progress to the user and also know when the upload is complete, things get a lot more complicated!</p>
 
 <!--more-->
 
@@ -569,5 +574,8 @@
 
     </div>
   </div>
+  
+  </span>
+  
 </body>
 </html>

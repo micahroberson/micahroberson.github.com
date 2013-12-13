@@ -16,6 +16,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta itemprop="image" content="http://micahroberson.com/images/micah-headshot-color-square.png">
 
   
   <link rel="canonical" href="http://micahroberson.com/rails-mongodb-and-embedded-docs">
@@ -54,12 +55,16 @@
 </head>
 
 <body id="skrollr-body"   >
+  
+  <span itemscope itemtype="http://schema.org/Article">
+  
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
   </a>
   <div class="intro">
-    <h1><a href='/'>Micah Roberson</a></h1>
+    <h1><a href='/'><span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Micah Roberson</span></span></a></h1>
     <h2>Web Developer &amp; Entrepreneur</h2>
     <h4>San Francisco, California</h4>
     <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
@@ -112,7 +117,7 @@
   </header>
 
 
-<div class="entry-content"><p>I’m a big fan of MongoDB. I understand that it’s not great for every dataset out there, nor would I attempt to make it work with a highly relational dataset just because its shiny and new. What I do find rather appealing about MongoDB is the non-rigid document schema and the different mindset you have to have while developing. The non-rigid schema is important because it allows for very agile development and fast iterations. This doesn’t mean I condone adding and removing fields like crazy. I think I still make pretty calculated decisions when it comes to adding new fields to a collection just because I’ve been in the RDBMS world for so long - which is a good thing! 
+<div class="entry-content" itemprop="articleBody"><p>I’m a big fan of MongoDB. I understand that it’s not great for every dataset out there, nor would I attempt to make it work with a highly relational dataset just because its shiny and new. What I do find rather appealing about MongoDB is the non-rigid document schema and the different mindset you have to have while developing. The non-rigid schema is important because it allows for very agile development and fast iterations. This doesn’t mean I condone adding and removing fields like crazy. I think I still make pretty calculated decisions when it comes to adding new fields to a collection just because I’ve been in the RDBMS world for so long - which is a good thing! 
 <!--more-->
 The different mindset I mentioned, came about as a result of a conversation I had at <a href="http://www.10gen.com/events/mongodb-san-francisco-2013">MongoDB Days SF</a>. One of the presenters made a point about modeling the data in the database in the same way as you display it in the app. This is a completely different approach than one would take with a classic RDBMS backed application. With an RDBMS, you’re most likely going to attempt to normalize the entire schema and then potentially denormalize certain fields out on a case-by-case basis. We do all of this with the assumption that normalization is ideal, and redundancy is bad. I think this allusion comes from two things: a. storage space actually used to be an issue due to hardware constraints and thusly cost. and b. you can relatively easily access any piece of data with the use of joins and/or a number of other techniques in an RDBMS. With MongoDB, I’ll layout the design of a particular view and decide what the main domain model is, and if the view is going to be a list format, there’s probably some additional metadata from another model that needs to be displayed alongside(i.e. a list of comments, each showing the author thumnail picture and name). At this point, you need to denormalize that metadata in order to avoid the N+1 beast. Although denormalization is necessary for efficient queries, its not all that difficult to maintain nor is it a downside. I much prefer the overall approach to app development with MongoDB and find it much easier to relate the inner-workings to the UI. </p>
 </div>
@@ -260,5 +265,8 @@ The different mindset I mentioned, came about as a result of a conversation I ha
 
     </div>
   </div>
+  
+  </span>
+  
 </body>
 </html>

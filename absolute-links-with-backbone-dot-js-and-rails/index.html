@@ -16,6 +16,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta itemprop="image" content="http://micahroberson.com/images/micah-headshot-color-square.png">
 
   
   <link rel="canonical" href="http://micahroberson.com/absolute-links-with-backbone-dot-js-and-rails">
@@ -54,12 +55,16 @@
 </head>
 
 <body id="skrollr-body"   >
+  
+  <span itemscope itemtype="http://schema.org/Article">
+  
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
   </a>
   <div class="intro">
-    <h1><a href='/'>Micah Roberson</a></h1>
+    <h1><a href='/'><span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Micah Roberson</span></span></a></h1>
     <h2>Web Developer &amp; Entrepreneur</h2>
     <h4>San Francisco, California</h4>
     <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
@@ -112,7 +117,7 @@
   </header>
 
 
-<div class="entry-content"><p>Ideally user’s won’t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
+<div class="entry-content" itemprop="articleBody"><p>Ideally user’s won’t ever need to refresh your single page app. With the use of websockets, or simulated websockets via polling, this is avoidable nearly 100% of the time. However, there are some cases where it would be very handy for the user to be able to refresh the page and return to exactly where they were. Perhaps the most important scenario is actually for developers! Making a code change and having to click through several links to actually test the code leaves something to be desired.
 <!--more-->
 To start we need to make sure all Backbone URL/non-API requests get routed to load up the app appropriately. From Rails’ perspective, its rendering the same view, home#index, for every non-API request but making sure the relative path gets passed along with it. To keep it simple, I’ve just added a catch-all route, but it may be better to whitelist specific routes that match up with your Backbone.js routes. Notice I’m using Devise and also include some “api” scoped routes to illustrate how this particular app is setup.</p>
 
@@ -319,5 +324,8 @@ end
 
     </div>
   </div>
+  
+  </span>
+  
 </body>
 </html>

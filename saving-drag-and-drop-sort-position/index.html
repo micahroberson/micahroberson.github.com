@@ -16,6 +16,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta itemprop="image" content="http://micahroberson.com/images/micah-headshot-color-square.png">
 
   
   <link rel="canonical" href="http://micahroberson.com/saving-drag-and-drop-sort-position">
@@ -56,12 +57,16 @@
 </head>
 
 <body id="skrollr-body"   >
+  
+  <span itemscope itemtype="http://schema.org/Article">
+  
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
   </a>
   <div class="intro">
-    <h1><a href='/'>Micah Roberson</a></h1>
+    <h1><a href='/'><span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Micah Roberson</span></span></a></h1>
     <h2>Web Developer &amp; Entrepreneur</h2>
     <h4>San Francisco, California</h4>
     <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
@@ -114,7 +119,7 @@
   </header>
 
 
-<div class="entry-content"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop ‘cards’ in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
+<div class="entry-content" itemprop="articleBody"><p>We recently began work on an in-house solution for managing our projects at <a href="https://www.readyappsdev.com">ReadyApps</a>, and this solution requires that we have the ability to drag and drop ‘cards’ in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
 <!--more-->
 <img class="width-100" src="/images/dragndrop.png" /></p>
 
@@ -428,5 +433,8 @@
 
     </div>
   </div>
+  
+  </span>
+  
 </body>
 </html>

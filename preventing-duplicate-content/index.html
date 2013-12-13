@@ -16,6 +16,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta itemprop="image" content="http://micahroberson.com/images/micah-headshot-color-square.png">
 
   
   <link rel="canonical" href="http://micahroberson.com/preventing-duplicate-content">
@@ -56,12 +57,16 @@
 </head>
 
 <body id="skrollr-body"   >
+  
+  <span itemscope itemtype="http://schema.org/Article">
+  
   <header role="banner"><div class='navbar-wrapper' data-0="position:static;box-shadow:none;" data-top-top='position:fixed;top:0;left:0;box-shadow:0px 1px 1px rgba(0,0,0,0.2)'>
   <a href="/">
     <div class="logo" data-0="width:133px;height:133px;" data--200-top-top="width:50px;height:50px;" ><span></span></div>
   </a>
   <div class="intro">
-    <h1><a href='/'>Micah Roberson</a></h1>
+    <h1><a href='/'><span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Micah Roberson</span></span></a></h1>
     <h2>Web Developer &amp; Entrepreneur</h2>
     <h4>San Francisco, California</h4>
     <span style='display:none'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
@@ -114,7 +119,7 @@
   </header>
 
 
-<div class="entry-content"><p>It’s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there’s a simple solution for site’s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we’re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.
+<div class="entry-content" itemprop="articleBody"><p>It’s useful to allow users to reach your site by visiting both the naked domain, greeksquare.com, as well as the www. prefixed version, www.greeksquare.com. However, this puts search engines in a sticky situation because from their perspective, these are two different sites with the same exact content. Fortunately, there’s a simple solution for site’s built with any Rack based web server(ie. Ruby on Rails, Sinatra, etc.): <a href="https://github.com/jtrupiano/rack-rewrite">rack-rewrite</a>. Rack-rewrite is a simple middleware for applying rewrite rules (redirects) and we’re going to use it to redirect a couple of prefixed domains to the naked domain. By pointing all variations of the same content to one place, we eliminate the competition between the different URLs, and also boost the overall relevancy and popularity.
 <!--more-->
 For this example, I’m going to use some snippets from the main Rails app behind <a href="https://greeksquare.com">GreekSquare</a>. Let’s begin by adding the rack-rewrite gem:</p>
 
@@ -280,5 +285,8 @@ end
 
     </div>
   </div>
+  
+  </span>
+  
 </body>
 </html>

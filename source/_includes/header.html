@@ -1,1 +1,26 @@
-{% include custom/header.html %}
+<div class='navbar-wrapper {% if page.url != "/index.html" %}shadow{% endif %}'>
+  <a href="/">
+    <div class="logo"></div>
+  </a>
+  <h1>
+    <a href='/' style='display:none;'>
+      <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Micah Roberson</span>
+      </span>
+    </a>
+  </h1>
+  <nav>
+    <ul>
+      <li><a href='/' class='active'>Home</a></li>
+      <li><a href='/work'>Work</a></li>
+      <li><a href='/about'>About</a></li>
+    </ul>
+  </nav>
+  <span style='display:none;'>By <a href='https://plus.google.com/106721416583632264667' rel='author'>Micah Roberson</a></span>
+  <!-- <div class='social-links'>
+    <a class='social-media-link' href='https://twitter.com/micahroberson' target='_blank'><i class='icon-twitter'></i></a>
+    <a class='social-media-link' href='https://www.github.com/micahroberson' target='_blank'><i class='icon-github'></i></a>
+    <a class='social-media-link' href='/atom.xml' target='_blank'><i class='icon-feed'></i></a>
+    <a class='social-media-link' href='mailto:micah.roberson@gmail.com' target='_blank'><i class='icon-mail'></i></a>
+  </div> -->
+</div>

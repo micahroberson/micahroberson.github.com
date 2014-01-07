@@ -30,33 +30,12 @@ html {
 
 body > header h1, body > header  h2, body > header  h3, body > header  h4, h1, h2, h3, h4 {
 	font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
-	margin: 0;
 	font-weight: 500;
 }
 
 #content > h1 {
   font-size: 2em;
   margin-bottom: .5em;
-}
-
-body > header h1 {
-	font-size: 30px;
-	line-height: 36px;
-	position: inherit;
-	display: block;
-}
-
-body header h2 {
-	font-size: 24px;
-	line-height: 36px;
-}
-
-body > header {
-	border: 0;
-	float: none;
-	h4 {
-		font-size: 14px;
-	}
 }
 
 body a {
@@ -67,59 +46,9 @@ body i {
   font-style: italic;
 }
 
-#content.fadein {
-  animation: fadein 1s;
-  -moz-animation: fadein 1s; /* Firefox */
-  -webkit-animation: fadein 1s; /* Safari and Chrome */
-  -o-animation: fadein 1s; /* Opera */
-  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-}
-#content.fadeout {
-  animation: fadeout .5s;
-  -moz-animation: fadeout .5s; /* Firefox */
-  -webkit-animation: fadeout .5s; /* Safari and Chrome */
-  -o-animation: fadeout .5s; /* Opera */
-  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-}
-
 #content .blog-index article h1 a {
 	font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
 	font-size: 24px;
-}
-
-/*h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-	color: rgb(255, 143, 0) !important;
-}*/
-
-.logo {
-	background: transparent url('/images/logo_red_flat.png') no-repeat center center;
-  @include background-size(contain);
-	height: 133px;
-	width: 133px;
-	margin: 0 auto;
-  display: inline-block;
-  position: relative;
-
-  span{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 133px;
-    height: 133px;
-    @include border-radius(70px);
-    background: transparent url('/images/micah-headshot-color-square.png') no-repeat 50% 50%;
-    @include transition(opacity .5s linear);
-    @include background-size(100%);
-    opacity: 0;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 
 .intro {
@@ -165,16 +94,8 @@ article.hentry header {
   margin: 0;
   h4 {color: #F64744; max-width: 447px - 56px;}
 }
-
-.navbar-wrapper {
-  width: 100%;
-  text-align: center;
-  z-index: 2000;
-  padding: 20px 0;
-  /*@include box-shadow(0px 1px 1px rgba(0,0,0,0.2));*/
-  > a {
-    text-decoration: none;
-  }
+article.hentry {
+  margin-top: 80px;
 }
 
 .width-50 {
@@ -183,55 +104,6 @@ article.hentry header {
 
 pre {
   width: 100%;
-}
-
-@keyframes fadein {
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@-moz-keyframes fadein { /* Firefox */
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@-webkit-keyframes fadein { /* Safari and Chrome */
-    from {
-        opacity:0;
-    }
-    to {
-        opacity:1;
-    }
-}
-@keyframes fadeout {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-@-moz-keyframes fadeout { /* Firefox */
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-@-webkit-keyframes fadeout { /* Safari and Chrome */
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
 }
 
 .social-media-link, .social-media-link:visited {

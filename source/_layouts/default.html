@@ -1,5 +1,5 @@
 ---
-sidebar: true
+sidebar: false
 ---
 {% capture root_url %}{{ site.root | strip_slash }}{% endcapture %}
 {% include head.html %}
@@ -10,6 +10,9 @@ sidebar: true
   <header role="banner">{% include header.html %}</header>
   <nav role="navigation">{% include navigation.html %}</nav>
   <div id="main">
+    {% if page.url == '/index.html' %}
+      <div class='header-image'></div>
+    {% endif %}
     <div id="content">
       {{ content | expand_urls: root_url }}
     </div>

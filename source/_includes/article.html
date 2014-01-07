@@ -20,11 +20,11 @@
     {% else %}
       <h2 class="entry-title">
         {% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}
-        {% if site.twitter_tweet_button %}
+        <!-- {% if site.twitter_tweet_button %}
           <span style="float:right;margin-top:2px;">
             <a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="{{ site.twitter_user }}" data-counturl="{{ site.url }}{{ page.url }}" >Tweet</a>
           </span>
-        {% endif %}
+        {% endif %} -->
       </h2>
       {% unless page.meta == false %}
         <p class="meta">

@@ -4,7 +4,7 @@
   <title><![CDATA[Micah Roberson]]></title>
   <link href="http://micahroberson.com/atom.xml" rel="self"/>
   <link href="http://micahroberson.com/"/>
-  <updated>2013-12-13T08:22:24-08:00</updated>
+  <updated>2014-01-16T19:53:49-08:00</updated>
   <id>http://micahroberson.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>
@@ -190,18 +190,6 @@
 <img class="width-50 left" src="http://micahroberson.com/images/gs_nav_open.png" /></p>
 
 <p><img class="width-100 center" src="http://micahroberson.com/images/gs_desktop.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Building Doozie]]></title>
-    <link href="http://micahroberson.com/building-doozie/"/>
-    <updated>2013-10-13T20:01:00-07:00</updated>
-    <id>http://micahroberson.com/building-doozie</id>
-    <content type="html"><![CDATA[<p>At <a href="https://www.readyappsdev.com">RAD</a>, we’ve tried just about every project management tool out there including <a href="https://basecamp.com">BaseCamp</a>, <a href="https://www.pivotaltracker.com/">Pivotal Tracker</a>, <a href="https://trello.com">Trello</a>, <a href="https://www.planscope.com">Planscope</a>, <a href="https://www.asana.com">Asana</a>, <a href="https://blossom.io">Blossom</a>, and probably some others that I’m forgetting. Usually the problem wasn’t that the product sucked, although some of them did in my opinion, but that they just had some little nuances that irked us and left a bad taste in our mouths. That’s not to say we didn’t try to adapt or make some of the apps work. We spent a good deal of time using Asana, which I still love for what it is, and also Blossom, which turned out to be a major influencer in the app we decided to build in-house - <a href="https://doozie.io">Doozie</a>. After switching around with different apps for over a year, we decided it was time to bite the bullet and build it ourselves. </p>
-
-<!--more-->
-
 ]]></content>
   </entry>
   

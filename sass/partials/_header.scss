@@ -49,18 +49,39 @@ body > header, body > span > header {
     display: inline-block;
     position: relative;
   }
+  .profile {
+    background: transparent url('/images/micah-headshot-color-square.png') no-repeat center center;
+    @include background-size(contain);
+    height: 45px;
+    width: 45px;
+    margin: 17px auto;
+    display: inline-block;
+    position: relative;
+    @include border-radius(25px);
+  }
+  .header-name, .header-desc {
+    height: 45px;
+    line-height: 45px;
+    vertical-align: top;
+    display: inline-block;
+    margin: 17px;
+  }
+  .header-desc {
+    font-size: .6em;
+    line-height: 52px;
+  }
   .social-links {
     float: right;
   }
   nav {
     ul {
       list-style: none;
-      width: 300px;
+      // width: 300px;
       height: 65px;
       display: block;
       // margin: 0 auto;
       float: right;
-      margin: 0;
+      margin: 0 34px 0 0;
       li {
         height: 65px;
         position: relative;
@@ -75,9 +96,12 @@ body > header, body > span > header {
           font-size: 16px;
           text-transform: uppercase;
           line-height: 80px;
-          border-bottom: 1px solid $subtitle-color;
+          // border-bottom: 1px solid $subtitle-color;
           &, &:visited, &:hover {
             color: $subtitle-color;
+          }
+          img {
+            max-width: 20px;
           }
         }
       }
@@ -128,7 +152,7 @@ body > header, body > span > header {
 
       li {
         text-align: center;
-        width: 33.33333333%;
+        width: 100%;
         background: rgba(255,255,255,.7);
       }
     }

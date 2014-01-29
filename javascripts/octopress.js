@@ -123,6 +123,19 @@ $.domReady(function() {
   // addCodeLineNumbers();
   getNav();
   // addSidebarToggler();
+  var navbarShadow = false;
+  var y = $('.header-image').height() - $('.navbar-wrapper').height();
+  if(!$('.navbar-wrapper').hasClass('shadow')) {
+    window.onscroll = function() {
+      if(!navbarShadow && document.body.scrollTop > y) {
+        navbarShadow = true;
+        $('.navbar-wrapper').addClass('shadow');
+      } else if(navbarShadow && document.body.scrollTop <= y) {
+        navbarShadow = false;
+        $('.navbar-wrapper').removeClass('shadow');
+      }
+    };
+  }
 });
 
 // iOS scaling bug fix

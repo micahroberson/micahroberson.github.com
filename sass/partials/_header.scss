@@ -136,27 +136,29 @@ body > header, body > span > header {
   }
 }
 @media only screen and (max-width: 705px) {
-  body > header .navbar-wrapper {
-    > a {
-      margin: 0 auto;
-      display: block;
-      float: none;
-      padding: 0 12%;
-      text-align: center;
-      height: auto;
-    }
-    .logo, .profile, .header-name, .header-desc {
-      margin-bottom: 0;
-    }
-    .header-desc {
-      line-height: 14px;
-      height: 14px;
-      margin-top: 0;
-    }
-    nav ul {
-      position: absolute;
-      top: 0;
-      right: 0;
+  body, body span {
+    > header .navbar-wrapper {
+      > a {
+        margin: 0 auto;
+        display: block;
+        float: none;
+        padding: 0 12%;
+        text-align: center;
+        height: auto;
+      }
+      .logo, .profile, .header-name, .header-desc {
+        margin-bottom: 0;
+      }
+      .header-desc {
+        line-height: 14px;
+        height: 14px;
+        margin-top: 0;
+      }
+      nav ul {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
     }
   }
 }
@@ -208,7 +210,12 @@ body > header, body > span > header {
       height: 80px;
     }
     article.hentry {
-      margin-top: 145px;
+      margin-top: 80px;
     }
+  }
+  code {
+    word-wrap: break-word;
+    max-width: 100%;
+    white-space: pre;
   }
 }

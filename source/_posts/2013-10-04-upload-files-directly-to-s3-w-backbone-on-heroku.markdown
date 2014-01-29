@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "Upload files directly to S3 w/ Backbone on Heroku"
 date: 2013-10-04 09:40
+updated: 2013-10-04 09:40
 comments: true
 keywords: s3, backbone, upload, files, input type file, rails, CORS, Heroku
 description: How to upload files directly to an S3 bucket via javascript/coffeescript from a Rails app hosted on Heroku.

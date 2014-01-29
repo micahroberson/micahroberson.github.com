@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "A Brief Introduction to Bitcoin"
 date: 2013-12-12 10:51
+updated: 2013-12-12 10:51
 comments: true
 keywords: bitcoin, bitcoin mining, introduction, bitcoin 101, bitcoin for idiots
 description: A simple guide to understanding Bitcoin. This introduction for beginners will explain the origin of Bitcoin, how it works, and what to do with it.

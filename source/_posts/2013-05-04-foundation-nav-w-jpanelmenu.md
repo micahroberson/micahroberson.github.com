@@ -4,6 +4,7 @@ published: true
 title: "Mobile Navigation using Foundation and jPanelMenu"
 comments: true
 date: 2013-05-04 10:21
+updated: 2013-05-04 10:21
 categories: 
 keywords: rails, single page app, foundation, zurb, jpanelmenu, mobile navigation, flyout menu, facebook style navigation
 description: How to product a more mobile friendly navbar in Foundation with a little help from JPanelMenu.

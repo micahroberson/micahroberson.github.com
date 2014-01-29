@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "How To Accept Inbound Email In Any Rails App"
 date: 2014-01-26 15:48
+updated: 2014-01-26 17:00
 comments: true
 keywords: rails, ruby on rails, ruby, griddler, thoughtbot, inbound email, email parsing, mandrill
 description: A how-to on accepting incoming email with any rack-based application using Thoughtbot's gem, Griddler, in conjunction with a service such as SendGrid or Mandrill.

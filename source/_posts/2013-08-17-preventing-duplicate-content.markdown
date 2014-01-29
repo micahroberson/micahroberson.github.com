@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "Preventing Duplicate Content | Rails SEO Tip"
 date: 2013-08-17 11:13
+updated: 2013-08-17 11:13
 comments: true
 keywords: seo, duplicate content, ruby on rails, rails, canonicalization, multiple urls, preferred domain
 description: Canonicalization is the SEO concept of redirecting multiple URLs to a single master URL. Learn how to implement a solution in Ruby on Rails to prevent duplicate content complications to improve your SEO.

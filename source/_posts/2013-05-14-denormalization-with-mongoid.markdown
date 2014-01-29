@@ -3,6 +3,7 @@ published: false
 layout: post
 title: "Denormalization with Mongoid"
 date: 2013-05-14 08:51
+updated: 2013-05-14 08:51
 comments: true
 keywords: rails, mongoid, mongodb, embedded_in, embeds_many, denormalizing
 description: Correctly configure embedded_in/embeds_many relations with Mongoid and Mongoid::Alize.

@@ -4,6 +4,7 @@ published: true
 title: "Backbone Collections and Foreign Keys"
 comments: true
 date: 2013-05-02 08:16
+updated: 2013-05-02 08:16
 categories: 
 keywords: backbone.js, backbone collection, rails, single page app, foreign key
 description: Efficiently handling large client-side dataset with multiple foreign-key lookups in Backbone.js.

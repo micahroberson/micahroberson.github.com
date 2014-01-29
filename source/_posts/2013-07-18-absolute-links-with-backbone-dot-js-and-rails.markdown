@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "Absolute Links with Backbone.js and Rails"
 date: 2013-07-18 09:15
+updated: 2013-07-18 09:15
 comments: true
 keywords: rails, backbone.js, backbone, require.js, single page app, refresh, push-state, history
 description: Methods for allowing users to refresh within a Backbone.js app or load a page within a Backbone.js app from an an absolute url

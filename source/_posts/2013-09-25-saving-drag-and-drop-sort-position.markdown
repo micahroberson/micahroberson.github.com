@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "Saving Drag and Drop Sort Position"
 date: 2013-09-25 10:35
+updated: 2013-09-25 10:35
 comments: true
 keywords: drag and drop, sort position, sort index, efficient, store, save
 description: Efficiently store and retrieve sort ordering/positioning in a drag and drop GUI built with jQuery UI, Backbone.js, Rails and MongoDB.

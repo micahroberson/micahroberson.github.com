@@ -3,6 +3,7 @@ published: false
 layout: post
 title: "Bootstrapping a Single Page Backbone App with Rails"
 date: 2013-07-08 09:56
+updated: 2013-07-08 09:56
 comments: true
 keywords: rails, backbone, backbone.js, require.js, bootstrapping, bootstrap data, spa, single page app
 description: How to reliably load bootstrap data in your single-page application from a Rails application.

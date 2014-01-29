@@ -3,6 +3,7 @@ publish: true
 layout: post
 title: "Mobile and Responsive Navigation without jPanelMenu"
 date: 2013-11-18 08:36
+updated: 2013-11-18 08:36
 comments: true
 keywords: project management, doozie, doozie.io, product development
 description: How to build a fast and functional slide-out, panel-style navigation menu using minimal javascript and hardware accelerated CSS for great mobile performance.

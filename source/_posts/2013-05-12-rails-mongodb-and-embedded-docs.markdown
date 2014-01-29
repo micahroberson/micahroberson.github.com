@@ -3,6 +3,7 @@ published: true
 layout: post
 title: "MongoDB Schema Design"
 date: 2013-05-12 08:01
+updated: 2013-05-12 08:01
 comments: true
 keywords: rails, mongoid, mongodb, embedded_in, embeds_many, denormalizing
 description: Thoughts on MongoDB and schema design.

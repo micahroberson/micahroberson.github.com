@@ -86,9 +86,9 @@ article header h4.entry-title {
 }
 article header .entry-title a {
   min-width: 280px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
 }
 article.hentry header {
   margin: 0;

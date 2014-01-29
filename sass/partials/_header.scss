@@ -130,6 +130,43 @@ body > header, body > span > header {
     height: 250px;
   }
 }
+@media only screen and (max-width: 1060px) {
+  .hide-tablet {
+    display: none;
+  }
+}
+@media only screen and (max-width: 705px) {
+  body > header .navbar-wrapper {
+    > a {
+      margin: 0 auto;
+      display: block;
+      float: none;
+      padding: 0 12%;
+      text-align: center;
+      height: auto;
+    }
+    .logo, .profile, .header-name, .header-desc {
+      margin-bottom: 0;
+    }
+    .header-desc {
+      line-height: 14px;
+      height: 14px;
+      margin-top: 0;
+    }
+    nav ul {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}
+@media only screen and (max-width: 620px) {
+  body > header .navbar-wrapper {
+    > a {
+      padding: 0 5%;
+    }
+  }
+}
 @media only screen and (min-width: 460px) {
   .header-image {
     height: 210px;
@@ -137,29 +174,41 @@ body > header, body > span > header {
 }
 @media only screen and (max-width: 460px) {
   body > header, body > span > header{
-    .navbar-wrapper > a {
-      display: block;
-      width: 100%;
-      margin: 0 auto;
+    .navbar-wrapper {
       background: rgba(255,255,255,.7);
-
-      .logo {
-        display: block;
+      > a {
+        padding: 0;
+        height: 80px;
       }
-    }
-    nav ul {
-      float: none;
-      display: block;
-      width: 100%;
-
-      li {
-        text-align: center;
-        width: 100%;
-        background: rgba(255,255,255,.7);
+      nav ul {
+        position: relative;
+        float: none;
+        display: block;
+        width: 75px;
+        height: 24px;
+        margin: 0 auto;
+        li {
+          height: 24px;
+          line-height: 24px;
+          a {
+            line-height: 24px;
+          }
+        }
+      }
+      nav, .header-desc {
+        display: none;
+      }
+      .logo, .profile, .header-name {
+        margin-bottom: 17px;
       }
     }
   }
-  #main article.hentry {
-    margin-top: 145px;
+  #main {
+    .header-image {
+      height: 80px;
+    }
+    article.hentry {
+      margin-top: 145px;
+    }
   }
 }

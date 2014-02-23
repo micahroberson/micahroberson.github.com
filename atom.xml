@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Micah Roberson]]></title>
+  <title><![CDATA[Micah Roberson | A Blog About Programming And Software Development]]></title>
   <link href="http://micahroberson.com/atom.xml" rel="self"/>
   <link href="http://micahroberson.com/"/>
-  <updated>2014-01-29T09:05:18-08:00</updated>
+  <updated>2014-02-23T14:58:20-08:00</updated>
   <id>http://micahroberson.com/</id>
   <author>
     <name><![CDATA[Micah Roberson]]></name>

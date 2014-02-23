@@ -7,7 +7,8 @@ updated: 2013-12-12 10:51
 comments: true
 keywords: bitcoin, bitcoin mining, introduction, bitcoin 101, bitcoin for idiots
 description: A simple guide to understanding Bitcoin. This introduction for beginners will explain the origin of Bitcoin, how it works, and what to do with it.
-cover: http://www.intomobile.com/wp-content/uploads/2013/11/bitcoin-620x350-610x344.png
+cover: http://micahroberson.com/images/bitcoin.png
+twitter_image: http://micahroberson.com/images/bitcoin-square.png
 ---
 
 You've probably heard of Bitcoin(if you haven't you probably aren't going to find this post) and you probably understand that it's some new currency that everyone seems to be making a big fuss about. I'm not here to tell you to go out and buy Bitcoin or that it's a "bubble" on the verge of collapsing, but instead to give you a little insight on where Bitcoin came from and how it works. I don't know if Bitcoin is going to succeed, although a lot of wealthy, powerful people are backing it, but I do think it deservers a fair chance and the only way that's going to happen is if people are exposed to it and understand it.

@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://micahroberson.com
-title: Micah Roberson
+title: Micah Roberson | A Blog About Programming And Software Development
 subtitle:
 author: Micah Roberson
 simple_search:
@@ -110,6 +110,8 @@ google_analytics_tracking_id: UA-34306816-1
 
 # Facebook Like
 facebook_like: true
+facebook_app_id: 331544803648631
+facebook_page: https://www.facebook.com/micah.roberson
 
 mailchimp: true
 mailchimp_list_name: "Blog"

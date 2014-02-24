@@ -22,7 +22,7 @@ article {
       }
     }
     p {
-      font-size: .9em;
+      // font-size: .9em;
       // hsl(220, 25, 75)
       color: $text-color;
       margin: 0;
@@ -106,9 +106,11 @@ article + article {
 }
 #content .blog-index {
   article {
-	padding-top: 0;
-	padding-bottom: 0;
-	/*border-top: 4px solid $article-border;*/
+	  padding-top: 0;
+	  padding-bottom: 3em;
+    .more-link {
+      text-decoration: underline;
+    }
   }
   article:first-child {
     padding-top: 1em;

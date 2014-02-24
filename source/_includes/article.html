@@ -13,19 +13,19 @@
       <div class="entry-content" itemprop="articleBody">
         {{ content | excerpt }}
         {% capture excerpted %}{{ content | has_excerpt }}{% endcapture %}
-        {% if excerpted == 'true' %}
-          <a href="{{ root_url }}{{ post.url }}" class="more-link">{{ site.excerpt_link }}</a>
-        {% endif %}
       </div>
+      {% if excerpted == 'true' %}
+        <a href="{{ root_url }}{{ post.url }}" class="more-link">{{ site.excerpt_link }}</a>
+      {% endif %}
     {% else %}
-      <h2 class="entry-title">
+      <h1 class="entry-title">
         {% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}
         <!-- {% if site.twitter_tweet_button %}
           <span style="float:right;margin-top:2px;">
             <a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="{{ site.twitter_user }}" data-counturl="{{ site.url }}{{ page.url }}" >Tweet</a>
           </span>
         {% endif %} -->
-      </h2>
+      </h1>
       {% unless page.meta == false %}
         <p class="meta">
           {% include post/date.html %}{{ time }}

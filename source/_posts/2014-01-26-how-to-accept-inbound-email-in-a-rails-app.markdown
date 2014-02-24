@@ -1,7 +1,7 @@
 ---
 publish: true
 layout: post
-title: "How To Accept Inbound Email In Any Rails App"
+title: "How To Accept Inbound Email In A Rails App"
 date: 2014-01-26 15:48
 updated: 2014-01-26 17:00
 comments: true

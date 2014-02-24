@@ -1,5 +1,5 @@
 ---
-sidebar: false
+sidebar: true
 layout: default
 ---
 
@@ -21,7 +21,7 @@ layout: default
   </div>
 </div>
 {% unless page.sidebar == false %}
-  <aside class="sidebar">
+  <aside class="sidebar" style="top:8px;">
     {% if site.blog_index_asides.size %}
       {% include_array blog_index_asides %}
     {% else %}

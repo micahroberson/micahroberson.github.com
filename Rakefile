@@ -222,7 +222,8 @@ task :deploy do
   end
 
   Rake::Task[:copydot].invoke(source_dir, public_dir)
-  Rake::Task["#{deploy_default}"].execute
+  # Rake::Task["#{deploy_default}"].execute
+  system "s3cmd sync --delete-removed --exclude '.git/*' _deploy/ s3://micahroberson.com --verbose"
 end
 
 desc "Generate website and deploy"

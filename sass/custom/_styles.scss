@@ -1,35 +1,13 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
 
-@font-face {
-  font-family: 'League Gothic';
-  src: url('/fonts/league_ghotic_extended-webfont.eot?') format('eot'),
-        url('/fonts/league_ghotic_extended-webfont.woff') format('woff'),
-        url('/fonts/league_ghotic_extended-webfont.ttf') format('truetype'),
-        url('/fonts/league_ghotic_extended-webfont.svg#webfontJks7As9d') format('svg');
-  font-family: 'Novecentowide';
-  src: url('/fonts/Novecentowide-Normal-webfont.eot') format('eot'),
-        url('/fonts/Novecentowide-Normal-webfont.woff') format('woff'),
-        url('/fonts/Novecentowide-Normal-webfont.ttf') format('truetype'),
-        url('/fonts/Novecentowide-Normal-webfont.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
 html, body {
-  font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
-  font-weight: 500;
-  /*background: #eee url('/images/noise.png') repeat fixed;*/
   background: transparent;
-}
-
-html {
-  /*background: url(/images/desk.jpg) fixed center;
-  @include background-size(cover);*/
+  font-family: 'Source Sans Pro', Arial, san-serif;
 }
 
 body > header h1, body > header  h2, body > header  h3, body > header  h4, h1, h2, h3, h4 {
-	font-family: 'Source Sans Pro', 'Novecentowide', Arial, san-serif;
+	font-family: 'Source Sans Pro', Arial, san-serif;
 	font-weight: 500;
 }
 

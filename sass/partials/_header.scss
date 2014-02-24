@@ -43,7 +43,7 @@ body > header, body > span > header {
     }
   }
   .logo {
-    background: transparent url('/images/logo_grey_flat.png') no-repeat center center;
+    background: transparent url('http://cdn.micahroberson.com/images/logo_grey_flat.png') no-repeat center center;
     @include background-size(contain);
     height: 45px;
     width: 45px;
@@ -52,7 +52,7 @@ body > header, body > span > header {
     position: relative;
   }
   .profile {
-    background: transparent url('/images/micah-headshot-color-square.png') no-repeat center center;
+    background: transparent url('http://cdn.micahroberson.com/images/micah-headshot-color-square.png') no-repeat center center;
     @include background-size(contain);
     height: 45px;
     width: 45px;
@@ -112,7 +112,7 @@ body > header, body > span > header {
 }
 
 .header-image {
-  background: url(/images/sf-rowing.jpg) no-repeat 50% 50%;
+  background: url(http://cdn.micahroberson.com/images/sf-rowing.jpg) no-repeat 50% 50%;
   width: 100%;
   height: 145px;
   background-size: cover;

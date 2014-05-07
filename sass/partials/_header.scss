@@ -111,7 +111,16 @@ body > header, body > span > header {
     }
   }
 }
-
+.headshot {
+  background: transparent url('http://cdn.micahroberson.com/images/micah-headshot-color-square.png') no-repeat center center;
+  @include background-size(contain);
+  height: 100px;
+  width: 100px;
+  margin: 17px auto;
+  display: inline-block;
+  position: relative;
+  @include border-radius(50%);
+}
 .header-image {
   background: url(http://cdn.micahroberson.com/images/sf-rowing.jpg) no-repeat 50% 50%;
   width: 100%;

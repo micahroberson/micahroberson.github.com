@@ -10,7 +10,7 @@ description: Efficiently store and retrieve sort ordering/positioning in a drag 
 cover: http://micahroberson.com/images/dragndrop.png
 ---
 
-We recently began work on an in-house solution for managing our projects at [ReadyApps](https://www.readyappsdev.com), and this solution requires that we have the ability to drag and drop 'cards' in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
+We recently began work on an in-house solution for managing our projects at [RAD Development](https://raddevelopment.io), and this solution requires that we have the ability to drag and drop 'cards' in the same light as Trello or Blossom. Drag and drop interfaces are certainly nothing new and neither is rearranging the position of an element in a sorted array. However, I was unable to find much information on doing this in the most efficient way possible from a client-side javascript application. 
 <!--more-->
 {% img width-100 /images/dragndrop.png %}
 

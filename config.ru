@@ -22,6 +22,14 @@ class SinatraStaticServer < Sinatra::Base
     send_sinatra_file(request.path) {404}
   end
 
+  get %r{(/.*[^\/])$} do
+    redirect "#{params[:captures].first}/"
+  end
+
+  get %r{/.*/$} do
+    "successful redirect for '#{request.path}'"
+  end
+
   not_found do
     send_file(File.join(File.dirname(__FILE__), 'public', '404.html'), {:status => 404})
   end
